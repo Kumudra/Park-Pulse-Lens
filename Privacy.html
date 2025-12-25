@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ========== META TAGS & TITLE ========== -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Park Pulse Lens</title>
+
+    <!-- ========== FAVICON SETUP ========== -->
+    <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96"/>
+    <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg"/>
+    <link rel="shortcut icon" href="favicon/favicon.ico"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png"/>
+    <link rel="manifest" href="favicon/site.webmanifest"/>
+
+    <!-- ========== EXTERNAL LIBRARIES ========== -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Jost:ital,wght@0,100..900;1,100..900&family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <!-- ========== CUSTOM STYLES & SCRIPTS ========== -->
+    <!-- Nav Bar -->
+    <link rel="stylesheet" href="nav.css">
+    <script src="nav.js"></script>
+    <script src="simple-auth.js"></script>
+    <script src="helper.js"></script>
+    <script src="Dashboard.js"></script>
+    
+    <!-- Home Base -->
+    <link rel="stylesheet" href="Privacy.css">
+    <script src="Privacy.js"></script>
+</head>
+
+<body>
+    <!-- ========== NAVIGATION BAR ========== -->
+    <nav class="navbar navbar-expand-lg px-5 sticky-top">
+        <a class="navbar-brand d-flex align-items-center" href="index.html">
+            <img src="images/logo1.png" alt="Logo" class="me-2" style="height:40px;">
+        </a>
+    
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home Base</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="About.html">About Us</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Resource</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="Guide.html#content-section-1">Eco Guide</a></li>
+                        <li><a class="dropdown-item" href="Guide.html#content-section-2">Eco Science</a></li>
+                        <li><a class="dropdown-item" href="Guide.html#content-section-3">Change Wave</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="Events.html">Events</a>
+                </li>
+                
+            </ul>
+        
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <!-- This button will be updated by JavaScript -->
+                    <button class="sign-in-btn btn" type="button" id="mainSignInBtn">Sign In</button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ========== MODALS SECTION ========== -->
+    <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content border-0">
+                <div class="modal-header border-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="login-container">
+                        <!-- Form Side -->
+                        <div class="form-side">
+                            <div class="logo-container">
+                                <img src="images/logo1.png" alt="Park Pulse Lens Logo">
+                                <h1 id="logoTitle">Welcome Back</h1>
+                                <p id="logoSubtitle">Sign in to continue your park conservation journey</p>
+                            </div>
+
+                            <!-- Login Form -->
+                            <form id="loginForm" class="form-switch">
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <div class="input-with-icon">
+                                        <i class="fas fa-envelope"></i>
+                                        <input type="email" id="loginEmail" name="email" placeholder="Enter your email" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <div class="input-with-icon password-container">
+                                        <i class="fas fa-lock"></i>
+                                        <input type="password" id="loginPassword" name="password" placeholder="Enter your password" required>
+                                        <span class="password-toggle" onclick="togglePassword('loginPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-options">
+                                    <div class="remember-me">
+                                        <input type="checkbox" id="remember" name="remember">
+                                        <label for="remember">Remember me</label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="submit-btn">Sign In</button>
+                                <div class="toggle-link">
+                                    Don't have an account? <a onclick="showSignupForm()">Sign up here</a>
+                                </div>
+                            </form>
+
+                            <!-- Signup Form -->
+                            <form id="signupForm" class="form-switch">
+                                <div class="name-fields">
+                                    <div class="form-group">
+                                        <label for="firstName">First Name</label>
+                                        <div class="input-with-icon">
+                                            <i class="fas fa-user"></i>
+                                            <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lastName">Last Name</label>
+                                        <div class="input-with-icon">
+                                            <i class="fas fa-user"></i>
+                                            <input type="text" id="lastName" name="lastName" placeholder="Enter your last name" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="signupEmail">Email Address</label>
+                                    <div class="input-with-icon">
+                                        <i class="fas fa-envelope"></i>
+                                        <input type="email" id="signupEmail" name="email" placeholder="Enter your email" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="signupPassword">Password</label>
+                                    <div class="input-with-icon password-container">
+                                        <i class="fas fa-lock"></i>
+                                        <input type="password" id="signupPassword" name="password" placeholder="Create a password" required>
+                                        <span class="password-toggle" onclick="togglePassword('signupPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirmPassword">Confirm Password</label>
+                                    <div class="input-with-icon password-container">
+                                        <i class="fas fa-lock"></i>
+                                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+                                        <span class="password-toggle" onclick="togglePassword('confirmPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-options">
+                                    <div class="remember-me">
+                                        <input type="checkbox" id="terms" name="terms" required>
+                                        <label for="terms">I agree to the Terms & Privacy Policy</label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="submit-btn">Create Account</button>
+                                <div class="toggle-link">
+                                    Already have an account? <a onclick="showLoginForm()">Login here</a>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Image Side -->
+                        <div class="image-side">
+                            <img src="images/join-log.png" alt="Beautiful Park Landscape">
+                            <div class="image-content">
+                                <h2 id="imageTitle">Join Our Park Conservation Community</h2>
+                                <p id="imageText">Be part of the movement to preserve and protect our natural spaces. Together, we can make a difference for future generations.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Hero Section -->
+    <section class="privacy-hero">
+        <div class="container">
+            <div class="text-center">
+                <div class="privacy-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h1>Privacy Policy</h1>
+                <p>Your privacy is our priority. This policy explains how we collect, use, and protect your personal information when you engage with Park Pulse Lens community initiatives.</p>
+                <p class="mt-3 small opacity-75">Last Updated: January 15, 2024</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Overview -->
+    <section class="content-section" style="background: var(--section-bg);">
+        <div class="container">
+            <div class="section-header">
+                <h2>Your Privacy Matters</h2>
+                <p>Transparent information about how we handle your data</p>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="privacy-card">
+                        <div class="privacy-card-header">
+                            <div class="privacy-card-icon">
+                                <i class="fas fa-eye-slash"></i>
+                            </div>
+                            <h3 class="privacy-card-title">Minimal Data</h3>
+                        </div>
+                        <p>We collect only essential information needed for park revitalization participation and community engagement.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="privacy-card">
+                        <div class="privacy-card-header">
+                            <div class="privacy-card-icon">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            <h3 class="privacy-card-title">Secure Storage</h3>
+                        </div>
+                        <p>Your data is protected with industry-standard security measures and encryption protocols.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="privacy-card">
+                        <div class="privacy-card-header">
+                            <div class="privacy-card-icon">
+                                <i class="fas fa-user-shield"></i>
+                            </div>
+                            <h3 class="privacy-card-title">Your Control</h3>
+                        </div>
+                        <p>You have full rights to access, modify, or delete your personal information at any time.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Policy -->
+    <section class="content-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Privacy Commitment</h2>
+                <p>Detailed explanation of our data practices</p>
+            </div>
+
+            <div class="privacy-accordion">
+                <div class="accordion" id="privacyAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                                <i class="fas fa-info-circle me-3"></i> Information We Collect
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#privacyAccordion">
+                            <div class="accordion-body">
+                                <p>We collect information that helps us coordinate park revitalization efforts effectively:</p>
+                                <ul>
+                                    <li><strong>Volunteer Information:</strong> Name, email, phone number for event coordination</li>
+                                    <li><strong>Participation Details:</strong> Event preferences, availability, skills</li>
+                                    <li><strong>Community Feedback:</strong> Suggestions and comments about park improvements</li>
+                                    <li><strong>Technical Data:</strong> Browser information, IP address (for security purposes)</li>
+                                    <li><strong>Location Data:</strong> General area information for local park initiatives</li>
+                                </ul>
+                                <p class="mt-3"><em>We never collect sensitive personal information unless absolutely necessary for safety reasons.</em></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                                <i class="fas fa-cogs me-3"></i> How We Use Your Information
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#privacyAccordion">
+                            <div class="accordion-body">
+                                <p>Your information helps us build stronger park communities:</p>
+                                <div class="data-table">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Purpose</th>
+                                                <th>Examples</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>Event Coordination</strong></td>
+                                                <td>Sending reminders, updates, and safety information for park cleanups</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Community Building</strong></td>
+                                                <td>Connecting volunteers with similar interests and skills</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Impact Reporting</strong></td>
+                                                <td>Anonymous statistics on park improvements and volunteer hours</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Communication</strong></td>
+                                                <td>Newsletters about upcoming projects and success stories</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Safety & Security</strong></td>
+                                                <td>Emergency contact information and event safety planning</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                                <i class="fas fa-share-alt me-3"></i> Data Sharing & Disclosure
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#privacyAccordion">
+                            <div class="accordion-body">
+                                <p>We believe in transparency about who sees your information:</p>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card h-100 border-0 shadow-sm">
+                                            <div class="card-body">
+                                                <h5 class="card-title text-primary">With Your Consent</h5>
+                                                <ul class="mt-3">
+                                                    <li>Local park authorities for coordination</li>
+                                                    <li>Community partners for collaborative events</li>
+                                                    <li>Sponsors (only aggregated, anonymous data)</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card h-100 border-0 shadow-sm">
+                                            <div class="card-body">
+                                                <h5 class="card-title text-primary">Legal Requirements</h5>
+                                                <ul class="mt-3">
+                                                    <li>When required by law or legal process</li>
+                                                    <li>To protect the safety of our community</li>
+                                                    <li>To prevent fraud or illegal activities</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mt-3"><strong>We never sell your personal information to third parties.</strong></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+                                <i class="fas fa-database me-3"></i> Data Retention & Security
+                            </button>
+                        </h2>
+                        <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#privacyAccordion">
+                            <div class="accordion-body">
+                                <p>We maintain your data with care and responsibility:</p>
+                                <div class="privacy-card">
+                                    <div class="privacy-card-header">
+                                        <div class="privacy-card-icon">
+                                            <i class="fas fa-clock"></i>
+                                        </div>
+                                        <h3 class="privacy-card-title">Retention Period</h3>
+                                    </div>
+                                    <p>We retain your information for as long as necessary for park community engagement, or until you request deletion. Inactive accounts are automatically deleted after 2 years.</p>
+                                </div>
+
+                                <div class="privacy-card mt-3">
+                                    <div class="privacy-card-header">
+                                        <div class="privacy-card-icon">
+                                            <i class="fas fa-shield-alt"></i>
+                                        </div>
+                                        <h3 class="privacy-card-title">Security Measures</h3>
+                                    </div>
+                                    <ul>
+                                        <li>Encrypted data transmission (SSL/TLS)</li>
+                                        <li>Regular security audits and updates</li>
+                                        <li>Access controls and authentication</li>
+                                        <li>Secure server infrastructure</li>
+                                        <li>Employee privacy training</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive">
+                                <i class="fas fa-user-cog me-3"></i> Your Rights & Choices
+                            </button>
+                        </h2>
+                        <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#privacyAccordion">
+                            <div class="accordion-body">
+                                <p>You have control over your personal information:</p>
+                                <div class="row text-center">
+                                    <div class="col-md-3 mb-3">
+                                        <div class="border rounded p-3 h-100">
+                                            <i class="fas fa-eye fa-2x text-primary mb-2"></i>
+                                            <h6>Access Right</h6>
+                                            <p class="small">View your data anytime</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <div class="border rounded p-3 h-100">
+                                            <i class="fas fa-edit fa-2x text-primary mb-2"></i>
+                                            <h6>Correction</h6>
+                                            <p class="small">Update inaccurate information</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <div class="border rounded p-3 h-100">
+                                            <i class="fas fa-trash-alt fa-2x text-primary mb-2"></i>
+                                            <h6>Deletion</h6>
+                                            <p class="small">Request data removal</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <div class="border rounded p-3 h-100">
+                                            <i class="fas fa-ban fa-2x text-primary mb-2"></i>
+                                            <h6>Opt-Out</h6>
+                                            <p class="small">Stop communications</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4 p-3 bg-light rounded">
+                                    <h5>Exercise Your Rights</h5>
+                                    <p class="mb-0">To exercise any of these rights, please contact us at <strong>privacy@parkpulselens.org</strong>. We typically respond within 7 business days.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Children's Privacy & Cookies -->
+    <section class="content-section" style="background: var(--section-bg);">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="privacy-card h-100">
+                        <div class="privacy-card-header">
+                            <div class="privacy-card-icon">
+                                <i class="fas fa-child"></i>
+                            </div>
+                            <h3 class="privacy-card-title">Children's Privacy</h3>
+                        </div>
+                        <p>Park Pulse Lens is committed to protecting children's privacy:</p>
+                        <ul>
+                            <li>We do not knowingly collect personal information from children under 13</li>
+                            <li>Children's participation in park events requires parental consent</li>
+                            <li>Parents can review, edit, or delete their child's information</li>
+                            <li>Special safety protocols for youth volunteer activities</li>
+                        </ul>
+                        <p class="mt-3"><em>If you believe we have collected information from a child under 13, please contact us immediately.</em></p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <div class="privacy-card h-100">
+                        <div class="privacy-card-header">
+                            <div class="privacy-card-icon">
+                                <i class="fas fa-cookie-bite"></i>
+                            </div>
+                            <h3 class="privacy-card-title">Cookies & Tracking</h3>
+                        </div>
+                        <p>We use minimal, essential technology to improve your experience:</p>
+                        
+                        <h6 class="mt-3">Essential Cookies</h6>
+                        <ul>
+                            <li>Session cookies for login functionality</li>
+                            <li>Security cookies for protection</li>
+                            <li>Preference cookies for language settings</li>
+                        </ul>
+
+                        <h6 class="mt-3">Optional Cookies</h6>
+                        <ul>
+                            <li>Analytics cookies (anonymous usage data)</li>
+                            <li>Marketing cookies (with your consent)</li>
+                        </ul>
+
+                        <div class="mt-3 p-3 bg-light rounded">
+                            <p class="mb-0 small"><strong>Cookie Control:</strong> You can manage cookie preferences through your browser settings. Disabling cookies may affect some website features.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Updates -->
+    <section class="content-section">
+        <div class="container">
+            <div class="contact-box">
+                <h3><i class="fas fa-envelope me-2"></i>Questions & Updates</h3>
+                <p class="mb-4">We're committed to keeping you informed about your privacy. Contact us with any questions or to exercise your rights.</p>
+                
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">Contact Our Privacy Team</h5>
+                                <div class="row mt-3">
+                                    <div class="col-md-6">
+                                        <p><i class="fas fa-envelope text-primary me-2"></i><strong>Email:</strong><br>parkpulselens@gmail.com</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p><i class="fas fa-clock text-primary me-2"></i><strong>Response Time:</strong><br>7 business days</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <h5>Policy Updates</h5>
+                    <p class="mb-0">We may update this policy periodically. Significant changes will be communicated via email and website notifications. Check the "Last Updated" date above for the current version.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer>
+        <div class="footer-container">
+            <!-- Quick Links Section -->
+            <div class="footer-section">
+                <h3><i class="fas fa-home"></i> Quick Links</h3>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home Base</a></li>
+                    <li><a href="About.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                    <li><a href="Events.html"><i class="fas fa-chevron-right"></i> Events</a></li>
+                </ul>
+            </div>
+
+            <!-- Resources Section -->
+            <div class="footer-section">
+                <h3><i class="fas fa-book-open"></i> Resources</h3>
+                <ul>
+                    <li><a href="Guide.html#content-section-1"><i class="fas fa-chevron-right"></i> Eco Guide</a></li>
+                    <li><a href="Guide.html#content-section-2"><i class="fas fa-chevron-right"></i> Eco Science</a></li>
+                    <li><a href="Guide.html#content-section-3"><i class="fas fa-chevron-right"></i> Change Wave</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact & Connect Section -->
+            <div class="footer-section">
+                <h3><i class="fas fa-envelope"></i> Connect</h3>
+                <p>Join our community for park updates and volunteer opportunities.</p>
+                
+                <div class="newsletter-form">
+                    <div class="input-container">
+                        <input class="input" name="text" type="email" id="email-input">
+                        <label class="label" for="email-input">Enter Your Email</label>
+                        <div class="topline"></div>
+                        <div class="underline"></div>
+                    </div>        
+                    <button type="submit">Subscribe</button>
+                </div>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>(+959) 265507224</span>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>drakumu@gmail.com</span>
+                    </div>
+                </div>
+
+                <div class="social-links">
+                    <a href="https://www.facebook.com"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com"><i class="fab fa-instagram"></i></a>
+                    <a href="https://x.com"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.youtube.com/?gl=VN"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <p>&copy; 2025 Park Pulse Lens: Park Action Hub. All rights reserved.</p>
+            
+            <div class="footer-links">
+                <a href="Privacy.html">Privacy</a>
+                <a href="Terms.html">Terms</a>
+                <a href="Reference.html">Reference</a>
+                <a href="Accessibility.html">Accessibility</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

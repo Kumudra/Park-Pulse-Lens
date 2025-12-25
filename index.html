@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ========== META TAGS & TITLE ========== -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Park Pulse Lens</title>
+
+    <!-- ========== FAVICON SETUP ========== -->
+    <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96"/>
+    <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg"/>
+    <link rel="shortcut icon" href="favicon/favicon.ico"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png"/>
+    <link rel="manifest" href="favicon/site.webmanifest"/>
+
+    <!-- ========== EXTERNAL LIBRARIES ========== -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Jost:ital,wght@0,100..900;1,100..900&family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <!-- ========== CUSTOM STYLES & SCRIPTS ========== -->
+    <!-- Nav Bar -->
+    <link rel="stylesheet" href="nav.css">
+    <script src="nav.js"></script>
+    <script src="simple-auth.js"></script>
+    <script src="helper.js"></script>
+    <script src="Dashboard.js"></script>
+    
+    <!-- Home Base -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- ========== NAVIGATION BAR ========== -->
+    <nav class="navbar navbar-expand-lg px-5 sticky-top">
+        <a class="navbar-brand d-flex align-items-center" href="index.html">
+            <img src="images/logo1.png" alt="Logo" class="me-2" style="height:40px;">
+        </a>
+    
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home Base</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="About.html">About Us</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Resource</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="Guide.html#content-section-1">Eco Guide</a></li>
+                        <li><a class="dropdown-item" href="Guide.html#content-section-2">Eco Science</a></li>
+                        <li><a class="dropdown-item" href="Guide.html#content-section-3">Change Wave</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="Events.html">Events</a>
+                </li>
+                
+            </ul>
+        
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <!-- This button will be updated by JavaScript -->
+                    <button class="sign-in-btn btn" type="button" id="mainSignInBtn">Sign In</button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ========== MODALS SECTION ========== -->
+    <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content border-0">
+                <div class="modal-header border-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="login-container">
+                        <!-- Form Side -->
+                        <div class="form-side">
+                            <div class="logo-container">
+                                <img src="images/logo1.png" alt="Park Pulse Lens Logo">
+                                <h1 id="logoTitle">Welcome Back</h1>
+                                <p id="logoSubtitle">Sign in to continue your park conservation journey</p>
+                            </div>
+
+                            <!-- Login Form -->
+                            <form id="loginForm" class="form-switch">
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <div class="input-with-icon">
+                                        <i class="fas fa-envelope"></i>
+                                        <input type="email" id="loginEmail" name="email" placeholder="Enter your email" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <div class="input-with-icon password-container">
+                                        <i class="fas fa-lock"></i>
+                                        <input type="password" id="loginPassword" name="password" placeholder="Enter your password" required>
+                                        <span class="password-toggle" onclick="togglePassword('loginPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-options">
+                                    <div class="remember-me">
+                                        <input type="checkbox" id="remember" name="remember">
+                                        <label for="remember">Remember me</label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="submit-btn">Sign In</button>
+                                <div class="toggle-link">
+                                    Don't have an account? <a onclick="showSignupForm()">Sign up here</a>
+                                </div>
+                            </form>
+
+                            <!-- Signup Form -->
+                            <form id="signupForm" class="form-switch">
+                                <div class="name-fields">
+                                    <div class="form-group">
+                                        <label for="firstName">First Name</label>
+                                        <div class="input-with-icon">
+                                            <i class="fas fa-user"></i>
+                                            <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lastName">Last Name</label>
+                                        <div class="input-with-icon">
+                                            <i class="fas fa-user"></i>
+                                            <input type="text" id="lastName" name="lastName" placeholder="Enter your last name" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="signupEmail">Email Address</label>
+                                    <div class="input-with-icon">
+                                        <i class="fas fa-envelope"></i>
+                                        <input type="email" id="signupEmail" name="email" placeholder="Enter your email" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="signupPassword">Password</label>
+                                    <div class="input-with-icon password-container">
+                                        <i class="fas fa-lock"></i>
+                                        <input type="password" id="signupPassword" name="password" placeholder="Create a password" required>
+                                        <span class="password-toggle" onclick="togglePassword('signupPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirmPassword">Confirm Password</label>
+                                    <div class="input-with-icon password-container">
+                                        <i class="fas fa-lock"></i>
+                                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+                                        <span class="password-toggle" onclick="togglePassword('confirmPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-options">
+                                    <div class="remember-me">
+                                        <input type="checkbox" id="terms" name="terms" required>
+                                        <label for="terms">I agree to the Terms & Privacy Policy</label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="submit-btn">Create Account</button>
+                                <div class="toggle-link">
+                                    Already have an account? <a onclick="showLoginForm()">Login here</a>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Image Side -->
+                        <div class="image-side">
+                            <img src="images/join-log.png" alt="Beautiful Park Landscape">
+                            <div class="image-content">
+                                <h2 id="imageTitle">Join Our Park Conservation Community</h2>
+                                <p id="imageText">Be part of the movement to preserve and protect our natural spaces. Together, we can make a difference for future generations.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== MAIN CONTENT ========== -->
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-container">
+            <h3>Reviving Our Parks</h3>
+            <h1>One Action at a Time</h1>
+            <p>Parks are more than green spaces — they are places to breathe, connect, and feel at ease. 
+                <br>Through small, consistent actions and shared responsibility, we aim to restore these spaces, 
+                <br>raise eco-awareness, and inspire communities to care for what belongs to everyone.</p>
+            <button class="learn-more">
+                <a href="#mid-section">
+                    <span class="circle" aria-hidden="true">
+                        <span class="icon arrow"></span>
+                    </span>
+                    <span class="button-text">Let's See!</span>
+                </a>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mid Section - Info Blocks -->
+    <div class="mid">
+        <div class="mid-section" id="mid-section">
+            <!-- Info Block 1 -->
+            <div class="basic_info" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+                <div class="info info1">
+                    <div class="i_letters">
+                        <h1 class="number" data-aos="fade-right" data-aos-delay="200">01</h1>
+                        <div class="words">
+                            <div class="i_phrase" data-aos="fade-up" data-aos-delay="300">
+                                <h5>Quiet Strength</h5>
+                                <hr>
+                            </div>
+                            <h1 class="t_title" data-aos="fade-up" data-aos-delay="400">Nature's Quiet Power</h1>
+                            <p data-aos="fade-up" data-aos-delay="500">Local parks do more than look pretty — they clean the air, cool neighborhoods, and give people space to breathe. Even a single well-kept park can lift moods, reduce stress, and strengthen community bonds.</p>
+                        </div>
+                    </div>
+                    <img src="images/home-1.jpg" alt="Nature's quiet power" data-aos="zoom-in" data-aos-delay="600">
+                </div>
+            </div>
+            
+            <!-- Info Block 2 -->
+            <div class="basic_info" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+                <div class="info info2">
+                    <img src="images/home-2.jpg" alt="Community in action" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="i_letters">
+                        <h1 class="number" data-aos="fade-left" data-aos-delay="300">02</h1>
+                        <div class="words">
+                            <div class="i_phrase" data-aos="fade-up" data-aos-delay="400">
+                                <hr>
+                                <h5>Shared Effort</h5>
+                            </div>
+                            <h1 class="t_title" data-aos="fade-up" data-aos-delay="500">Community in Action</h1>
+                            <p data-aos="fade-up" data-aos-delay="600">Every small act — picking up litter, planting a tree, helping a friend — adds up. When the community cares, parks transform from "just a space" into a shared home that inspires others to join in.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Info Block 3 -->
+            <div class="basic_info" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+                <div class="info info3">
+                    <div class="i_letters">
+                        <h1 class="number" data-aos="fade-right" data-aos-delay="200">03</h1>
+                        <div class="words">
+                            <div class="i_phrase" data-aos="fade-up" data-aos-delay="300">
+                                <h5>Green Tomorrow</h5>
+                                <hr>
+                            </div>
+                            <h1 class="t_title" data-aos="fade-up" data-aos-delay="400">A Future Worth Protecting</h1>
+                            <p data-aos="fade-up" data-aos-delay="500">Clean parks support biodiversity, healthier plants, and safer play areas. How we care for them today shapes what future generations inherit — a thriving park or a forgotten space.</p>
+                        </div>
+                    </div>
+                    <img src="images/home-3.jpg" alt="A future worth protecting" data-aos="zoom-in" data-aos-delay="600">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Resources Introduction Section -->
+    <div class="resources_intro">
+        <div class="r_explain">
+            <h1>Dive Into Eco Learning</h1>
+            <p>Your go-to space for park-friendly tips, simple experiments, and inspiring ideas. Learn how small actions can make a big difference — and turn what you learn into real impact for your local park.</p>
+            <button><a href="Guide.html">Next ></a></button>
+        </div>
+        
+        <div class="r_tabs">
+            <!-- Tab 1 -->
+            <div class="tab tab1">
+                <h1>01</h1>
+                <div class="context">
+                    <h3>Eco Guide</h3>
+                    <h5>Learn to Care</h5>
+                    <p>Simple tips, practical habits, and easy ways to make parks cleaner and greener.</p>
+                    <button><a href="Guide.html"><i class="fa-solid fa-arrow-down"></i> Read More</a></button>
+                </div>
+            </div>
+            
+            <!-- Tab 2 -->
+            <div class="tab tab1">
+                <h1>02</h1>
+                <div class="context">
+                    <h3>Eco Science</h3>
+                    <h5>Discover Nature</h5>
+                    <p>Fun mini-experiments and observations to explore the science behind healthy parks.</p>
+                    <button><a href="Guide.html#content-section-2"><i class="fa-solid fa-arrow-down"></i> Read More</a></button>
+                </div>
+            </div>
+            
+            <!-- Tab 3 -->
+            <div class="tab tab1">
+                <h1>03</h1>
+                <div class="context">
+                    <h3>Voice of Change</h3>
+                    <h5>Share Your Story</h5>
+                    <p>Inspiring reflections, ideas, and experiences from students and community members shaping their parks.</p>
+                    <button><a href="Guide.html#content-section-3"><i class="fa-solid fa-arrow-down"></i> Read More</a></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ========== FOOTER ========== -->
+    <footer>
+        <div class="footer-container">
+            <!-- Quick Links Section -->
+            <div class="footer-section">
+                <h3><i class="fas fa-home"></i> Quick Links</h3>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home Base</a></li>
+                    <li><a href="About.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                    <li><a href="Events.html"><i class="fas fa-chevron-right"></i> Events</a></li>
+                </ul>
+            </div>
+
+            <!-- Resources Section -->
+            <div class="footer-section">
+                <h3><i class="fas fa-book-open"></i> Resources</h3>
+                <ul>
+                    <li><a href="Guide.html#content-section-1"><i class="fas fa-chevron-right"></i> Eco Guide</a></li>
+                    <li><a href="Guide.html#content-section-2"><i class="fas fa-chevron-right"></i> Eco Science</a></li>
+                    <li><a href="Guide.html#content-section-3"><i class="fas fa-chevron-right"></i> Change Wave</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact & Connect Section -->
+            <div class="footer-section">
+                <h3><i class="fas fa-envelope"></i> Connect</h3>
+                <p>Join our community for park updates and volunteer opportunities.</p>
+                
+                <div class="newsletter-form">
+                    <div class="input-container">
+                        <input class="input" name="text" type="email" id="email-input">
+                        <label class="label" for="email-input">Enter Your Email</label>
+                        <div class="topline"></div>
+                        <div class="underline"></div>
+                    </div>        
+                    <button type="submit">Subscribe</button>
+                </div>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>(+959) 265507224</span>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>drakumu@gmail.com</span>
+                    </div>
+                </div>
+
+                <div class="social-links">
+                    <a href="https://www.facebook.com"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com"><i class="fab fa-instagram"></i></a>
+                    <a href="https://x.com"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.youtube.com/?gl=VN"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <p>&copy; 2025 Park Pulse Lens: Park Action Hub. All rights reserved.</p>
+            
+            <div class="footer-links">
+                <a href="Privacy.html">Privacy</a>
+                <a href="Terms.html">Terms</a>
+                <a href="Reference.html">Reference</a>
+                <a href="Accessibility.html">Accessibility</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

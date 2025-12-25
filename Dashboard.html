@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ========== META TAGS & TITLE ========== -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Park Pulse Lens</title>
+
+    <!-- ========== FAVICON SETUP ========== -->
+    <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96"/>
+    <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg"/>
+    <link rel="shortcut icon" href="favicon/favicon.ico"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png"/>
+    <link rel="manifest" href="favicon/site.webmanifest"/>
+
+    <!-- ========== EXTERNAL LIBRARIES ========== -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Jost:ital,wght@0,100..900;1,100..900&family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <!-- ========== CUSTOM STYLES & SCRIPTS ========== -->
+    <!-- Nav Bar -->
+    <link rel="stylesheet" href="nav.css">
+    <script src="nav.js"></script>
+    <script src="simple-auth.js"></script>
+    <script src="helper.js"></script>
+    <script src="Dashboard.js"></script>
+    
+    <!-- About -->
+    <link rel="stylesheet" href="Dashboard.css">
+</head>
+
+<body>
+    <!-- ========== NAVIGATION BAR ========== -->
+    <nav class="navbar navbar-expand-lg px-5 sticky-top">
+        <a class="navbar-brand d-flex align-items-center" href="index.html">
+            <img src="images/logo1.png" alt="Logo" class="me-2" style="height:40px;">
+        </a>
+    
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home Base</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="About.html">About Us</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Resource</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="Guide.html#content-section-1">Eco Guide</a></li>
+                        <li><a class="dropdown-item" href="Guide.html#content-section-2">Eco Science</a></li>
+                        <li><a class="dropdown-item" href="Guide.html#content-section-3">Change Wave</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="Events.html">Events</a>
+                </li>
+                
+            </ul>
+        
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <!-- This button will be updated by JavaScript -->
+                    <button class="sign-in-btn btn" type="button" id="mainSignInBtn">Sign In</button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ========== MODALS SECTION ========== -->
+    <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content border-0">
+                <div class="modal-header border-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="login-container">
+                        <!-- Form Side -->
+                        <div class="form-side">
+                            <div class="logo-container">
+                                <img src="images/logo1.png" alt="Park Pulse Lens Logo">
+                                <h1 id="logoTitle">Welcome Back</h1>
+                                <p id="logoSubtitle">Sign in to continue your park conservation journey</p>
+                            </div>
+
+                            <!-- Login Form -->
+                            <form id="loginForm" class="form-switch">
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <div class="input-with-icon">
+                                        <i class="fas fa-envelope"></i>
+                                        <input type="email" id="loginEmail" name="email" placeholder="Enter your email" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <div class="input-with-icon password-container">
+                                        <i class="fas fa-lock"></i>
+                                        <input type="password" id="loginPassword" name="password" placeholder="Enter your password" required>
+                                        <span class="password-toggle" onclick="togglePassword('loginPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-options">
+                                    <div class="remember-me">
+                                        <input type="checkbox" id="remember" name="remember">
+                                        <label for="remember">Remember me</label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="submit-btn">Sign In</button>
+                                <div class="toggle-link">
+                                    Don't have an account? <a onclick="showSignupForm()">Sign up here</a>
+                                </div>
+                            </form>
+
+                            <!-- Signup Form -->
+                            <form id="signupForm" class="form-switch">
+                                <div class="name-fields">
+                                    <div class="form-group">
+                                        <label for="firstName">First Name</label>
+                                        <div class="input-with-icon">
+                                            <i class="fas fa-user"></i>
+                                            <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lastName">Last Name</label>
+                                        <div class="input-with-icon">
+                                            <i class="fas fa-user"></i>
+                                            <input type="text" id="lastName" name="lastName" placeholder="Enter your last name" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="signupEmail">Email Address</label>
+                                    <div class="input-with-icon">
+                                        <i class="fas fa-envelope"></i>
+                                        <input type="email" id="signupEmail" name="email" placeholder="Enter your email" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="signupPassword">Password</label>
+                                    <div class="input-with-icon password-container">
+                                        <i class="fas fa-lock"></i>
+                                        <input type="password" id="signupPassword" name="password" placeholder="Create a password" required>
+                                        <span class="password-toggle" onclick="togglePassword('signupPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirmPassword">Confirm Password</label>
+                                    <div class="input-with-icon password-container">
+                                        <i class="fas fa-lock"></i>
+                                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+                                        <span class="password-toggle" onclick="togglePassword('confirmPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-options">
+                                    <div class="remember-me">
+                                        <input type="checkbox" id="terms" name="terms" required>
+                                        <label for="terms">I agree to the Terms & Privacy Policy</label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="submit-btn">Create Account</button>
+                                <div class="toggle-link">
+                                    Already have an account? <a onclick="showLoginForm()">Login here</a>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Image Side -->
+                        <div class="image-side">
+                            <img src="images/join-log.png" alt="Beautiful Park Landscape">
+                            <div class="image-content">
+                                <h2 id="imageTitle">Join Our Park Conservation Community</h2>
+                                <p id="imageText">Be part of the movement to preserve and protect our natural spaces. Together, we can make a difference for future generations.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== MAIN DASHBOARD CONTENT ========== -->
+    <div class="dashboard-container">
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="sidebar" id="sidebar">
+            <!-- Logo that toggles sidebar -->
+            <div class="sidebar-header" id="sidebar-toggle">
+                <a href="#" class="logo-toggle">
+                    <img src="images/logo1.png" alt="Park Pulse Lens Logo">
+                    <div class="logo-text-container">
+                        <div class="logo-text">Park Pulse Lens</div>
+                        <div class="logo-tagline">Park Action Hub</div>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Main Navigation -->
+            <nav class="main-nav">
+                <ul>
+                    <li class="active" data-tooltip="Dashboard">
+                        <a href="#dash-section">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li data-tooltip="Events Calendar">
+                        <a href="#calendar-section">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Events Calendar</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- ===== MAIN CONTENT AREA ===== -->
+        <main class="main-content">
+            <!-- ===== DASHBOARD SECTION ===== -->
+            <div class="dashboard-section" id="dash-section">
+                <!-- Dashboard Header -->
+                <header class="dashboard-header">
+                    <div class="welcome">
+                        Welcome back, <strong></strong>
+                    </div>
+                    <h2>Dashboard</h2>
+                </header>
+
+                <!-- Main Dashboard Grid -->
+                <section class="main-grid">
+                    <!-- Next Event Card -->
+                    <div class="card next-event">
+                        <h2>Next Event <a href="#" class="view-link">View calendar</a></h2>
+                        <div class="event-details">
+                            <span class="event-type">Community Cleanup</span>
+                            <span class="time">09:00, 15 November, 2025</span>
+                        </div>
+                        <div class="event-info">
+                            <div class="location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Central Park - North Entrance</span>
+                            </div>
+                            <div class="participants">
+                                <i class="fas fa-users"></i>
+                                <span>24 volunteers registered</span>
+                            </div>
+                        </div>
+                        <button class="join-btn">Join This Event</button>
+                    </div>
+
+                    <!-- Volunteer Statistics Card -->
+                    <div class="card volunteer-statistic">
+                        <h2>Volunteer Stats <a href="#" class="view-link">View all stats</a></h2>
+                        <div class="stats-bar-container">
+                            <div class="stat-horizontal-item">EVENTS<span class="value">12</span></div>
+                            <div class="stat-horizontal-item">HOURS<span class="value">48</span></div>
+                            <div class="stat-horizontal-item">TREES<span class="value">36</span></div>
+                            <div class="stat-horizontal-item">IMPACT<span class="value">92%</span></div>
+                            <div class="progress-bar-wrap">
+                                <div class="progress-bar" style="width: 92%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Participated Events Card -->
+                    <div class="card participated-events">
+                        <h2>Participated Events</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>EVENT NAME</th>
+                                    <th>DATE</th>
+                                    <th>TIME SPENT</th>
+                                    <th>POINTS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="highlight">
+                                    <td>1</td>
+                                    <td><strong>Park Cleanup Drive</strong></td>
+                                    <td>Nov 8</td>
+                                    <td>0 min</td>
+                                    <td><strong>0</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Tree Planting Day</td>
+                                    <td>Nov 1</td>
+                                    <td>0 min</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Wildlife Monitoring</td>
+                                    <td>Oct 25</td>
+                                    <td>0 min</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>Eco Workshop</td>
+                                    <td>Oct 18</td>
+                                    <td>0 min</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>River Cleanup</td>
+                                    <td>Oct 11</td>
+                                    <td>0 min</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>Bird Watching</td>
+                                    <td>Oct 4</td>
+                                    <td>0 min</td>
+                                    <td>0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Statistics Grid -->
+                    <div class="stat-grid">
+                        <div class="card stat-card eco-impact">
+                            <i class="fas fa-leaf"></i>
+                            <span class="stat-value">0%</span>
+                            <span class="stat-label">ECO IMPACT</span>
+                        </div>
+                        <div class="card stat-card eco-points">
+                            <i class="fas fa-medal"></i>
+                            <span class="stat-value">0</span>
+                            <span class="stat-label">ECO POINTS</span>
+                        </div>
+                        <div class="card stat-card volunteer-streak">
+                            <i class="fas fa-fire"></i>
+                            <span class="stat-value">0</span>
+                            <span class="stat-label">STREAK</span>
+                        </div>
+                        <div class="card stat-card community-rank">
+                            <i class="fas fa-trophy"></i>
+                            <span class="stat-value">#999</span>
+                            <span class="stat-label">COMMUNITY RANK</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ===== CALENDAR SECTION ===== -->
+            <div class="calendar-section" id="calendar-section">
+                <div class="calendar-container-wrapper">
+                    <div class="calendar-main-content">
+                        <!-- Calendar Header -->
+                        <div class="calendar-header">
+                            <h2>Events Calendar</h2>
+                            <div class="month-navigation">
+                                <button class="month-btn today-btn" id="today-btn">
+                                    <i class="fas fa-calendar-day"></i> Today
+                                </button>
+                                <button class="month-btn" id="prev-month">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <span class="current-month" id="current-month">December 2025</span>
+                                <button class="month-btn" id="next-month">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Calendar Layout: Events on LEFT, Calendar on RIGHT -->
+                        <div class="calendar-events-row">
+                            <!-- Events Side (LEFT) -->
+                            <div class="events-side">
+                                <div class="available-events-header">
+                                    <h3><i class="fas fa-calendar-plus"></i> Available Events</h3>
+                                    <div class="events-count" id="events-count">5 events</div>
+                                </div>
+                                
+                                <!-- Events Filter -->
+                                <div class="events-filter">
+                                    <button class="filter-btn active" data-filter="all">All</button>
+                                    <button class="filter-btn" data-filter="cleanup">Cleanup</button>
+                                    <button class="filter-btn" data-filter="planting">Planting</button>
+                                    <button class="filter-btn" data-filter="workshop">Workshop</button>
+                                </div>
+                                
+                                <!-- Events Search -->
+                                <div class="events-search">
+                                    <input type="text" class="search-input" placeholder="Search events..." id="event-search">
+                                </div>
+                                
+                                <!-- Events List Container -->
+                                <div class="event-list-container">
+                                    <div class="event-list" id="event-list">
+                                        <!-- Events will be populated by JavaScript -->
+                                    </div>
+                                </div>
+                            </div>
+
+                                <!-- ========== PARTICIPATION MODAL ========== -->
+    <div class="modal fade" id="participateModal" tabindex="-1" aria-labelledby="participateModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl custom-modal">
+            <div class="modal-content custom-modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="participateModalLabel">Event Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                
+                <div class="modal-body custom-modal-body">
+                    <!-- Details View -->
+                    <div id="details-view" class="row h-100">
+                        <!-- Left Column - Event Info -->
+                        <div class="col-md-6 d-flex flex-column">
+                            <!-- Sticky Title Section -->
+                            <div class="project-title-section">
+                                <h4 id="modalProjectTitle" class="project-title"></h4>
+                            </div>
+                            
+                            <!-- Scrollable Middle Content -->
+                            <div class="scrollable-content">
+                                <!-- Event Status & Progress -->
+                                <div class="status-section mb-4">
+                                    <div class="stat-badge mb-3">
+                                        <span id="modalProjectStatus" class="status-badge"></span>
+                                    </div>
+                                </div>
+
+                                <!-- Event Meta Information -->
+                                <div class="project-meta mb-4">
+                                    <div class="meta-item mb-3">
+                                        <i class="fas fa-map-marker-alt text-primary"></i>
+                                        <div>
+                                            <div class="meta-label">Location</div>
+                                            <div id="modalProjectLocation" class="meta-value"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="meta-item mb-3">
+                                        <i class="fas fa-calendar-day text-primary"></i>
+                                        <div>
+                                            <div class="meta-label">Event Date & Time</div>
+                                            <div class="meta-value">
+                                                <span id="modalProjectDate" class="fw-medium"></span>
+                                                <div id="modalProjectTime" class="text-muted"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="meta-item mb-3">
+                                        <i class="fas fa-clock text-primary"></i>
+                                        <div>
+                                            <div class="meta-label">Duration</div>
+                                            <div id="modalProjectDuration" class="meta-value"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="meta-item mb-3">
+                                        <i class="fas fa-users text-primary"></i>
+                                        <div>
+                                            <div class="meta-label">Participants</div>
+                                            <div id="modalProjectParticipants" class="meta-value"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Event Description -->
+                                <div class="project-description mb-4">
+                                    <h6 class="section-title">About this Event</h6>
+                                    <p id="modalProjectDescription" class="description-text"></p>
+                                </div>
+
+                                <!-- Event Tags -->
+                                <div class="project-tags-section">
+                                    <h6 class="section-title mb-3">Event Categories</h6>
+                                    <div class="project-tags" id="modalProjectTags">
+                                        <!-- Tags will be inserted here -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sticky Help Section -->
+                            <div class="help-section">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="date-modal">
+                                        <span id="project_startdate"></span> - <span id="project_enddate"></span>
+                                    </div>
+                                    
+                                    <button class="btn btn-sm">
+                                        <i class="fa-regular fa-circle-question text-muted me-2"></i>
+                                        <small class="text-muted"><a href="Accessibility.html#contact-section">
+                                            Need help with participation?
+                                        </a></small>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column - Visual & Actions -->
+                        <div class="col-md-6 d-flex flex-column">
+                            <!-- Event Image -->
+                            <div class="project-visual mb-4 flex-grow-1">
+                                <div id="modalProjectImage" class="modal-image-placeholder h-100">
+                                    <div class="image-overlay">
+                                        <!-- Quick Stats -->
+                                        <div class="quick-stats">
+                                            <div class="row text-center">
+                                                <div class="col-4">
+                                                    <div class="stat-item">
+                                                        <div class="stat-number" id="modalVolunteers">0</div>
+                                                        <div class="stat-label">Volunteers</div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="col-4">
+                                                    <div class="stat-item">
+                                                        <div class="stat-number" id="modalDuration">0</div>
+                                                        <div class="stat-label">Hours</div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="col-4">
+                                                    <div class="stat-item">
+                                                        <div class="stat-number" id="modalImpact">0</div>
+                                                        <div class="stat-label">Points</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Action Buttons -->
+                                        <div class="action-buttons">
+                                            <button class="action-btn save-btn" title="Save for later">
+                                                <i class="fa-regular fa-bookmark"></i>
+                                            </button>
+                                            <button class="fancy action-btn participate-main-btn" id="participateActionBtn">
+                                                <span class="top-key"></span>
+                                                <span class="text" id="participateActionText">Join This Event</span>
+                                                <span class="bottom-key-1"></span>
+                                                <span class="bottom-key-2"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Form View -->
+                    <div id="form-view" style="display: none;">
+                        <div class="form-header text-center mb-4">
+                            <h4 class="form-title">Join this Event</h4>
+                            <p class="text-muted">Fill out the form below to participate in <strong id="formProjectTitle"></strong></p>
+                        </div>
+                        
+                        <form class="participation-form">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="participantName" class="form-label">Full Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="participantName" required placeholder="Enter your full name">
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="participantEmail" class="form-label">Email Address <span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" id="participantEmail" required placeholder="your.email@example.com">
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="participantPhone" class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control" id="participantPhone" placeholder="+959 xxx xxx xxx">
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="participantAvailability" class="form-label">Preferred Time</label>
+                                    <select class="form-select" id="participantAvailability">
+                                        <option value="">Any time works for me</option>
+                                        <option value="morning">Morning (8AM - 12PM)</option>
+                                        <option value="afternoon">Afternoon (12PM - 4PM)</option>
+                                        <option value="evening">Evening (4PM - 8PM)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="participantExperience" class="form-label">Previous Experience Level</label>
+                                <select class="form-select" id="participantExperience">
+                                    <option value="">Select your experience level</option>
+                                    <option value="beginner">Beginner - First time volunteering</option>
+                                    <option value="intermediate">Some experience - Done this a few times</option>
+                                    <option value="experienced">Experienced - Regular volunteer</option>
+                                    <option value="expert">Expert - Can help train others</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="participantMessage" class="form-label">Additional Notes & Questions</label>
+                                <textarea class="form-control" id="participantMessage" rows="4" placeholder="Tell us about your interests, specific skills, availability, or any questions you might have..."></textarea>
+                                <div class="form-text">This helps us match you with the right tasks and team.</div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="modal-footer" id="modal-footer" style="display: none;">
+                    <button type="button" class="btn btn-outline-success" id="goBackBtn">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Event Details
+                    </button>
+                    
+                    <button type="button" class="btn btn-success" id="submitParticipation">
+                        <i class="fas fa-paper-plane me-2"></i>Submit Participation Request
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                            
+                            <!-- Calendar Side (RIGHT) -->
+                            <div class="calendar-side">
+                                <!-- Month/Year Selector -->
+                                <div class="month-year-selector">
+                                    <select id="month-select">
+                                        <option value="0">January</option>
+                                        <option value="1">February</option>
+                                        <option value="2">March</option>
+                                        <option value="3">April</option>
+                                        <option value="4">May</option>
+                                        <option value="5">June</option>
+                                        <option value="6">July</option>
+                                        <option value="7">August</option>
+                                        <option value="8">September</option>
+                                        <option value="9">October</option>
+                                        <option value="10">November</option>
+                                        <option value="11">December</option>
+                                    </select>
+                                    <select id="year-select">
+                                        <!-- Years will be populated by JavaScript -->
+                                    </select>
+                                </div>
+                                
+                                <!-- Calendar Days Container -->
+                                <div class="calendar-days-container">
+                                    <!-- Weekday headers -->
+                                    <div class="weekdays">
+                                        <div class="weekday">Sun</div>
+                                        <div class="weekday">Mon</div>
+                                        <div class="weekday">Tue</div>
+                                        <div class="weekday">Wed</div>
+                                        <div class="weekday">Thu</div>
+                                        <div class="weekday">Fri</div>
+                                        <div class="weekday">Sat</div>
+                                    </div>
+                                    
+                                    <!-- Calendar days grid -->
+                                    <div class="days" id="calendar-days">
+                                        <!-- Days will be populated by JavaScript -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ========== FOOTER ========== -->
+    <footer>
+        <div class="footer-container">
+            <!-- Quick Links Section -->
+            <div class="footer-section">
+                <h3><i class="fas fa-home"></i> Quick Links</h3>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home Base</a></li>
+                    <li><a href="About.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                    <li><a href="Events.html"><i class="fas fa-chevron-right"></i> Events</a></li>
+                </ul>
+            </div>
+
+            <!-- Resources Section -->
+            <div class="footer-section">
+                <h3><i class="fas fa-book-open"></i> Resources</h3>
+                <ul>
+                    <li><a href="Guide.html#content-section-1"><i class="fas fa-chevron-right"></i> Eco Guide</a></li>
+                    <li><a href="Guide.html#content-section-2"><i class="fas fa-chevron-right"></i> Eco Science</a></li>
+                    <li><a href="Guide.html#content-section-3"><i class="fas fa-chevron-right"></i> Change Wave</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact & Connect Section -->
+            <div class="footer-section">
+                <h3><i class="fas fa-envelope"></i> Connect</h3>
+                <p>Join our community for park updates and volunteer opportunities.</p>
+                
+                <div class="newsletter-form">
+                    <div class="input-container">
+                        <input class="input" name="text" type="email" id="email-input">
+                        <label class="label" for="email-input">Enter Your Email</label>
+                        <div class="topline"></div>
+                        <div class="underline"></div>
+                    </div>        
+                    <button type="submit">Subscribe</button>
+                </div>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>(+959) 265507224</span>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>parkpulselens@gmail.com</span>
+                    </div>
+                </div>
+
+                <div class="social-links">
+                    <a href="https://www.facebook.com"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com"><i class="fab fa-instagram"></i></a>
+                    <a href="https://x.com"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.youtube.com/?gl=VN"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <p>&copy; 2025 Park Pulse Lens: Park Action Hub. All rights reserved.</p>
+            
+            <div class="footer-links">
+                <a href="Privacy.html">Privacy</a>
+                <a href="Terms.html">Terms</a>
+                <a href="Reference.html">Reference</a>
+                <a href="Accessibility.html">Accessibility</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

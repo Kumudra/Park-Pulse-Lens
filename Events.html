@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ========== META TAGS & TITLE ========== -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Park Pulse Lens</title>
+
+    <!-- ========== FAVICON SETUP ========== -->
+    <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96"/>
+    <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg"/>
+    <link rel="shortcut icon" href="favicon/favicon.ico"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png"/>
+    <link rel="manifest" href="favicon/site.webmanifest"/>
+
+    <!-- ========== EXTERNAL LIBRARIES ========== -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Jost:ital,wght@0,100..900;1,100..900&family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <!-- ========== CUSTOM STYLES & SCRIPTS ========== -->
+    <!-- Nav Bar -->
+    <link rel="stylesheet" href="nav.css">
+    <script src="nav.js"></script>
+    <script src="simple-auth.js"></script>
+    <script src="helper.js"></script>
+    <script src="Dashboard.js"></script>
+    
+    <!-- Events -->
+    <link rel="stylesheet" href="Events.css">
+    <script src="Events.js"></script>
+</head>
+
+<body>
+    <!-- ========== NAVIGATION BAR ========== -->
+    <nav class="navbar navbar-expand-lg px-5 sticky-top">
+        <a class="navbar-brand d-flex align-items-center" href="index.html">
+            <img src="images/logo1.png" alt="Logo" class="me-2" style="height:40px;">
+        </a>
+    
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home Base</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="About.html">About Us</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Resource</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="Guide.html#content-section-1">Eco Guide</a></li>
+                        <li><a class="dropdown-item" href="Guide.html#content-section-2">Eco Science</a></li>
+                        <li><a class="dropdown-item" href="Guide.html#content-section-3">Change Wave</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="Events.html">Events</a>
+                </li>
+                
+            </ul>
+        
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <!-- This button will be updated by JavaScript -->
+                    <button class="sign-in-btn btn" type="button" id="mainSignInBtn">Sign In</button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ========== MODALS SECTION ========== -->
+    <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content border-0">
+                <div class="modal-header border-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="login-container">
+                        <!-- Form Side -->
+                        <div class="form-side">
+                            <div class="logo-container">
+                                <img src="images/logo1.png" alt="Park Pulse Lens Logo">
+                                <h1 id="logoTitle">Welcome Back</h1>
+                                <p id="logoSubtitle">Sign in to continue your park conservation journey</p>
+                            </div>
+
+                            <!-- Login Form -->
+                            <form id="loginForm" class="form-switch">
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <div class="input-with-icon">
+                                        <i class="fas fa-envelope"></i>
+                                        <input type="email" id="loginEmail" name="email" placeholder="Enter your email" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <div class="input-with-icon password-container">
+                                        <i class="fas fa-lock"></i>
+                                        <input type="password" id="loginPassword" name="password" placeholder="Enter your password" required>
+                                        <span class="password-toggle" onclick="togglePassword('loginPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-options">
+                                    <div class="remember-me">
+                                        <input type="checkbox" id="remember" name="remember">
+                                        <label for="remember">Remember me</label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="submit-btn">Sign In</button>
+                                <div class="toggle-link">
+                                    Don't have an account? <a onclick="showSignupForm()">Sign up here</a>
+                                </div>
+                            </form>
+
+                            <!-- Signup Form -->
+                            <form id="signupForm" class="form-switch">
+                                <div class="name-fields">
+                                    <div class="form-group">
+                                        <label for="firstName">First Name</label>
+                                        <div class="input-with-icon">
+                                            <i class="fas fa-user"></i>
+                                            <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lastName">Last Name</label>
+                                        <div class="input-with-icon">
+                                            <i class="fas fa-user"></i>
+                                            <input type="text" id="lastName" name="lastName" placeholder="Enter your last name" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="signupEmail">Email Address</label>
+                                    <div class="input-with-icon">
+                                        <i class="fas fa-envelope"></i>
+                                        <input type="email" id="signupEmail" name="email" placeholder="Enter your email" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="signupPassword">Password</label>
+                                    <div class="input-with-icon password-container">
+                                        <i class="fas fa-lock"></i>
+                                        <input type="password" id="signupPassword" name="password" placeholder="Create a password" required>
+                                        <span class="password-toggle" onclick="togglePassword('signupPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirmPassword">Confirm Password</label>
+                                    <div class="input-with-icon password-container">
+                                        <i class="fas fa-lock"></i>
+                                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+                                        <span class="password-toggle" onclick="togglePassword('confirmPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-options">
+                                    <div class="remember-me">
+                                        <input type="checkbox" id="terms" name="terms" required>
+                                        <label for="terms">I agree to the Terms & Privacy Policy</label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="submit-btn">Create Account</button>
+                                <div class="toggle-link">
+                                    Already have an account? <a onclick="showLoginForm()">Login here</a>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Image Side -->
+                        <div class="image-side">
+                            <img src="images/join-log.png" alt="Beautiful Park Landscape">
+                            <div class="image-content">
+                                <h2 id="imageTitle">Join Our Park Conservation Community</h2>
+                                <p id="imageText">Be part of the movement to preserve and protect our natural spaces. Together, we can make a difference for future generations.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- ========== SEARCH CONTAINER ========== -->
+<div class="search-item">
+    <form class="search-form" onsubmit="return false;">
+        <input type="search" class="search-input" placeholder="Search..." aria-label="Search" />
+        <button class="search-btn" type="submit" aria-label="Search">
+           <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+    </form>
+    <ul class="search-recommendations">
+        <li class="recommendation-item">cleans up</li>
+        <li class="recommendation-item">planting</li>
+        <li class="recommendation-item">rebuilding</li>
+    </ul>
+</div>
+
+    <div class="hero">
+        <div class="hero-container">
+            <h3>United Action</h3>
+            <h1>Together for Our Parks</h1>
+            <p>Discover clean-ups, planting sessions, and eco-workshops that bring people together. Simple events, big difference — the community grows stronger with every step.</p>
+            <button class="learn-more"><a href="#filter">
+                <span class="circle" aria-hidden="true">
+                    <span class="icon arrow"></span>
+                </span>
+                <span class="button-text">Let's Start!</span>
+            </a></button>
+        </div>
+    </div>
+
+    <div class="radial-filter-section" id="filter">
+        <div class="radial-container">
+            <div class="track-layer"></div>
+            <div class="range-layer"></div>
+            
+            <div class="center-hub">
+                <span class="filter-label">FILTER BY TYPES</span>
+            </div>
+
+            <div class="items-layer">
+                <div class="radial-item ri-one" style="--angle: -45deg">
+                    <div class="icon-box"><img src="images/events-filter01.png" alt=""></div>
+                    <span>Clean Up</span>
+                </div>
+                
+                <div class="radial-item ri-two" style="--angle: 0deg">
+                    <div class="icon-box"><img src="images/events-filter02.png" alt=""></div>
+                    <span>Planting</span>
+                </div>
+                
+                <div class="radial-item ri-three" style="--angle: 45deg">
+                    <div class="icon-box"><img src="images/events-filter03.png" alt=""></div>
+                    <span>Rebuilding</span>
+                </div>
+            </div>
+
+            <div class="radial-divider" style="--d-angle: -25deg"></div>
+            <div class="radial-divider" style="--d-angle: 25deg"></div>
+
+            <div class="tick" style="--t-angle: -75deg"></div>
+            <div class="tick" style="--t-angle: -25deg"></div>
+            <div class="tick" style="--t-angle: 25deg"></div>
+            <div class="tick" style="--t-angle: 75deg"></div>
+        </div>
+    </div>
+
+    <div class="library container">
+        <!-- Upcoming Projects Section -->
+        <section class="category">
+            <div class="category-header">
+                <h2 class="category-title"><i class="fas fa-seedling"></i> Upcoming Projects</h2>
+                <div class="carousel-controls">
+                    <button class="carousel-btn prev-btn" data-category="upcoming">&#8249;</button>
+                    <button class="carousel-btn next-btn" data-category="upcoming">&#8250;</button>
+                </div>
+            </div>
+            
+            <div class="carousel-container">
+                <div class="carousel" id="upcoming-carousel">
+                    <!-- Cards will be inserted here by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="indicator" id="upcoming-indicator"></div>
+        </section>
+
+        <!-- Current Initiatives Section -->
+        <section class="category">
+            <div class="category-header">
+                <h2 class="category-title"><i class="fas fa-tools"></i> Current Initiatives</h2>
+                <div class="carousel-controls">
+                    <button class="carousel-btn prev-btn" data-category="hosting">&#8249;</button>
+                    <button class="carousel-btn next-btn" data-category="hosting">&#8250;</button>
+                </div>
+            </div>
+            
+            <div class="carousel-container">
+                <div class="carousel" id="hosting-carousel">
+                    <!-- Cards will be inserted here by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="indicator" id="hosting-indicator"></div>
+        </section>
+
+        <!-- Completed Projects Section -->
+        <section class="category">
+            <div class="category-header">
+                <h2 class="category-title"><i class="fas fa-check-circle"></i> Completed Projects</h2>
+                <div class="carousel-controls">
+                    <button class="carousel-btn prev-btn" data-category="hosted">&#8249;</button>
+                    <button class="carousel-btn next-btn" data-category="hosted">&#8250;</button>
+                </div>
+            </div>
+            
+            <div class="carousel-container">
+                <div class="carousel" id="hosted-carousel">
+                    <!-- Cards will be inserted here by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="indicator" id="hosted-indicator"></div>
+        </section>
+    </div>
+
+    <!-- Modal for Participation -->
+    <div class="modal fade" id="participateModal" tabindex="-1" aria-labelledby="participateModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl custom-modal">
+            <div class="modal-content custom-modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="participateModalLabel">Project Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                
+                <div class="modal-body custom-modal-body">
+                    <!-- Details View -->
+                    <div id="details-view" class="row h-100">
+                        <!-- Left Column - Project Info -->
+                        <div class="col-md-6 d-flex flex-column">
+                            <!-- Sticky Title Section -->
+                            <div class="project-title-section">
+                                <h4 id="modalProjectTitle" class="project-title"></h4>
+                            </div>
+                            
+                            <!-- Scrollable Middle Content -->
+                            <div class="scrollable-content">
+                                <!-- Project Status & Progress -->
+                                <div class="status-section mb-4">
+                                    <div class="stat-badge mb-3">
+                                        <span id="modalProjectStatus" class="status-badge"></span>
+                                    </div>
+                                    
+                                    <div class="progress-container" id="modalProgressContainer" style="display: none;">
+                                        <div class="progress-label d-flex justify-content-between mb-2">
+                                            <span class="fw-medium">Project Progress</span>
+                                            <span id="modalProjectProgress" class="fw-bold">0%</span>
+                                        </div>
+                                        
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" id="modalProgressFill"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Project Meta Information -->
+                                <div class="project-meta mb-4">
+                                    <div class="meta-item mb-3">
+                                        <i class="fas fa-map-marker-alt text-primary"></i>
+                                        <div>
+                                            <div class="meta-label">Location</div>
+                                            <div id="modalProjectLocation" class="meta-value"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="meta-item mb-3">
+                                        <i class="fas fa-calendar-day text-primary"></i>
+                                        <div>
+                                            <div class="meta-label">Project Timeline</div>
+                                            <div class="meta-value">
+                                                <span id="modalProjectStart" class="fw-medium"></span> 
+                                                <i class="fas fa-arrow-right mx-2 text-muted"></i>
+                                                <span id="modalProjectEnd" class="fw-medium"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Project Description -->
+                                <div class="project-description mb-4">
+                                    <h6 class="section-title">About this Project</h6>
+                                    <p id="modalProjectDescription" class="description-text"></p>
+                                </div>
+
+                                <!-- Project Tags -->
+                                <div class="project-tags-section">
+                                    <h6 class="section-title mb-3">Project Categories</h6>
+                                    <div class="project-tags" id="modalProjectTags">
+                                        <!-- Tags will be inserted here -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sticky Help Section -->
+                            <div class="help-section">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="date-modal">
+                                        <span id="project_startdate"></span> - <span id="project_enddate"></span>
+                                    </div>
+                                    
+                                    <button class="btn btn-sm">
+                                        <i class="fa-regular fa-circle-question text-muted me-2"></i>
+                                        <small class="text-muted"><a href="Accessibility.html#contact-section">
+                                            Need help with participation?
+                                        </a></small>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column - Visual & Actions -->
+                        <div class="col-md-6 d-flex flex-column">
+                            <!-- Project Image -->
+                            <div class="project-visual mb-4 flex-grow-1">
+                                <div id="modalProjectImage" class="modal-image-placeholder h-100">
+                                    <div class="image-overlay">
+                                        <!-- Quick Stats -->
+                                        <div class="quick-stats">
+                                            <div class="row text-center">
+                                                <div class="col-4">
+                                                    <div class="stat-item">
+                                                        <div class="stat-number" id="modalVolunteers">0</div>
+                                                        <div class="stat-label">Volunteers</div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="col-4">
+                                                    <div class="stat-item">
+                                                        <div class="stat-number" id="modalDuration">0</div>
+                                                        <div class="stat-label">Days</div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="col-4">
+                                                    <div class="stat-item">
+                                                        <div class="stat-number" id="modalImpact">0</div>
+                                                        <div class="stat-label">Impact Score</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Action Buttons -->
+                                        <div class="action-buttons">
+                                            <button class="action-btn save-btn" title="Save for later">
+                                                <i class="fa-regular fa-bookmark"></i>
+                                            </button>
+                                            <button class="fancy action-btn participate-main-btn" id="participateActionBtn">
+                                                <span class="top-key"></span>
+                                                <span class="text" id="participateActionText">View Details First</span>
+                                                <span class="bottom-key-1"></span>
+                                                <span class="bottom-key-2"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Form View -->
+                    <div id="form-view" style="display: none;">
+                        <div class="form-header text-center mb-4">
+                            <h4 class="form-title">Join this Project</h4>
+                            <p class="text-muted">Fill out the form below to participate in <strong id="formProjectTitle"></strong></p>
+                        </div>
+                        
+                        <form class="participation-form">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="participantName" class="form-label">Full Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="participantName" required placeholder="Enter your full name">
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="participantEmail" class="form-label">Email Address <span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" id="participantEmail" required placeholder="your.email@example.com">
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="participantPhone" class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control" id="participantPhone" placeholder="+959 xxx xxx xxx">
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="participantAvailability" class="form-label">Preferred Days</label>
+                                    <select class="form-select" id="participantAvailability">
+                                        <option value="">Any day works for me</option>
+                                        <option value="weekends">Weekends only</option>
+                                        <option value="weekdays">Weekdays only</option>
+                                        <option value="specific">Specific dates</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="participantExperience" class="form-label">Previous Experience Level</label>
+                                <select class="form-select" id="participantExperience">
+                                    <option value="">Select your experience level</option>
+                                    <option value="beginner">Beginner - First time volunteering</option>
+                                    <option value="intermediate">Some experience - Done this a few times</option>
+                                    <option value="experienced">Experienced - Regular volunteer</option>
+                                    <option value="expert">Expert - Can help train others</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="participantMessage" class="form-label">Additional Notes & Questions</label>
+                                <textarea class="form-control" id="participantMessage" rows="4" placeholder="Tell us about your interests, specific skills, availability, or any questions you might have..."></textarea>
+                                <div class="form-text">This helps us match you with the right tasks and team.</div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="modal-footer" id="modal-footer" style="display: none;">
+                    <button type="button" class="btn btn-outline-secondary" id="goBackBtn">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Project Details
+                    </button>
+                    
+                    <button type="button" class="btn btn-success" id="submitParticipation">
+                        <i class="fas fa-paper-plane me-2"></i>Submit Participation Request
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add this right before the footer section -->
+    <div class="bottom-message">
+        <div class="container text-center py-5">
+            <div class="bottom-content">
+                <i class="fas fa-leaf fa-2x mb-3"></i>
+                <h3 class="mb-3">You've Reached the Bottom</h3>
+                <p class="mb-4">But the journey doesn't end here! Explore more ways to get involved with our community.</p>
+                
+                <div class="bottom-actions">
+                    <a href="#filter" class="button">
+                        <svg class="svgIcon" viewBox="0 0 384 512">
+                            <path d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== FOOTER ========== -->
+    <footer>
+        <div class="footer-container">
+            <!-- Quick Links Section -->
+            <div class="footer-section">
+                <h3><i class="fas fa-home"></i> Quick Links</h3>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home Base</a></li>
+                    <li><a href="About.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                    <li><a href="Events.html"><i class="fas fa-chevron-right"></i> Events</a></li>
+                </ul>
+            </div>
+
+            <!-- Resources Section -->
+            <div class="footer-section">
+                <h3><i class="fas fa-book-open"></i> Resources</h3>
+                <ul>
+                    <li><a href="Guide.html#content-section-1"><i class="fas fa-chevron-right"></i> Eco Guide</a></li>
+                    <li><a href="Guide.html#content-section-2"><i class="fas fa-chevron-right"></i> Eco Science</a></li>
+                    <li><a href="Guide.html#content-section-3"><i class="fas fa-chevron-right"></i> Change Wave</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact & Connect Section -->
+            <div class="footer-section">
+                <h3><i class="fas fa-envelope"></i> Connect</h3>
+                <p>Join our community for park updates and volunteer opportunities.</p>
+                
+                <div class="newsletter-form">
+                    <div class="input-container">
+                        <input class="input" name="text" type="email" id="email-input">
+                        <label class="label" for="email-input">Enter Your Email</label>
+                        <div class="topline"></div>
+                        <div class="underline"></div>
+                    </div>        
+                    <button type="submit">Subscribe</button>
+                </div>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>(+959) 265507224</span>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>parkpulselens@gmail.com</span>
+                    </div>
+                </div>
+
+                <div class="social-links">
+                    <a href="https://www.facebook.com"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com"><i class="fab fa-instagram"></i></a>
+                    <a href="https://x.com"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.youtube.com/?gl=VN"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <p>&copy; 2025 Park Pulse Lens: Park Action Hub. All rights reserved.</p>
+            
+            <div class="footer-links">
+                <a href="Privacy.html">Privacy</a>
+                <a href="Terms.html">Terms</a>
+                <a href="Reference.html">Reference</a>
+                <a href="Accessibility.html">Accessibility</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ========== META TAGS & TITLE ========== -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Park Pulse Lens</title>
+
+    <!-- ========== FAVICON SETUP ========== -->
+    <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96"/>
+    <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg"/>
+    <link rel="shortcut icon" href="favicon/favicon.ico"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png"/>
+    <link rel="manifest" href="favicon/site.webmanifest"/>
+
+    <!-- ========== EXTERNAL LIBRARIES ========== -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Jost:ital,wght@0,100..900;1,100..900&family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <!-- ========== CUSTOM STYLES & SCRIPTS ========== -->
+    <!-- Nav Bar -->
+    <link rel="stylesheet" href="nav.css">
+    <script src="nav.js"></script>
+    <script src="simple-auth.js"></script>
+    <script src="helper.js"></script>
+    <script src="Dashboard.js"></script>
+    
+    <!-- About -->
+    <link rel="stylesheet" href="About.css">
+    <script src="About.js"></script>
+</head>
+
+<body>
+    <!-- ========== NAVIGATION BAR ========== -->
+    <nav class="navbar navbar-expand-lg px-5 sticky-top">
+        <a class="navbar-brand d-flex align-items-center" href="index.html">
+            <img src="images/logo1.png" alt="Logo" class="me-2" style="height:40px;">
+        </a>
+    
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home Base</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="About.html">About Us</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Resource</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="Guide.html#content-section-1">Eco Guide</a></li>
+                        <li><a class="dropdown-item" href="Guide.html#content-section-2">Eco Science</a></li>
+                        <li><a class="dropdown-item" href="Guide.html#content-section-3">Change Wave</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="Events.html">Events</a>
+                </li>
+                
+            </ul>
+        
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <!-- This button will be updated by JavaScript -->
+                    <button class="sign-in-btn btn" type="button" id="mainSignInBtn">Sign In</button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ========== MODALS SECTION ========== -->
+    <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content border-0">
+                <div class="modal-header border-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="login-container">
+                        <!-- Form Side -->
+                        <div class="form-side">
+                            <div class="logo-container">
+                                <img src="images/logo1.png" alt="Park Pulse Lens Logo">
+                                <h1 id="logoTitle">Welcome Back</h1>
+                                <p id="logoSubtitle">Sign in to continue your park conservation journey</p>
+                            </div>
+
+                            <!-- Login Form -->
+                            <form id="loginForm" class="form-switch">
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <div class="input-with-icon">
+                                        <i class="fas fa-envelope"></i>
+                                        <input type="email" id="loginEmail" name="email" placeholder="Enter your email" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <div class="input-with-icon password-container">
+                                        <i class="fas fa-lock"></i>
+                                        <input type="password" id="loginPassword" name="password" placeholder="Enter your password" required>
+                                        <span class="password-toggle" onclick="togglePassword('loginPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-options">
+                                    <div class="remember-me">
+                                        <input type="checkbox" id="remember" name="remember">
+                                        <label for="remember">Remember me</label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="submit-btn">Sign In</button>
+                                <div class="toggle-link">
+                                    Don't have an account? <a onclick="showSignupForm()">Sign up here</a>
+                                </div>
+                            </form>
+
+                            <!-- Signup Form -->
+                            <form id="signupForm" class="form-switch">
+                                <div class="name-fields">
+                                    <div class="form-group">
+                                        <label for="firstName">First Name</label>
+                                        <div class="input-with-icon">
+                                            <i class="fas fa-user"></i>
+                                            <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lastName">Last Name</label>
+                                        <div class="input-with-icon">
+                                            <i class="fas fa-user"></i>
+                                            <input type="text" id="lastName" name="lastName" placeholder="Enter your last name" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="signupEmail">Email Address</label>
+                                    <div class="input-with-icon">
+                                        <i class="fas fa-envelope"></i>
+                                        <input type="email" id="signupEmail" name="email" placeholder="Enter your email" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="signupPassword">Password</label>
+                                    <div class="input-with-icon password-container">
+                                        <i class="fas fa-lock"></i>
+                                        <input type="password" id="signupPassword" name="password" placeholder="Create a password" required>
+                                        <span class="password-toggle" onclick="togglePassword('signupPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirmPassword">Confirm Password</label>
+                                    <div class="input-with-icon password-container">
+                                        <i class="fas fa-lock"></i>
+                                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+                                        <span class="password-toggle" onclick="togglePassword('confirmPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-options">
+                                    <div class="remember-me">
+                                        <input type="checkbox" id="terms" name="terms" required>
+                                        <label for="terms">I agree to the Terms & Privacy Policy</label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="submit-btn">Create Account</button>
+                                <div class="toggle-link">
+                                    Already have an account? <a onclick="showLoginForm()">Login here</a>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Image Side -->
+                        <div class="image-side">
+                            <img src="images/join-log.png" alt="Beautiful Park Landscape">
+                            <div class="image-content">
+                                <h2 id="imageTitle">Join Our Park Conservation Community</h2>
+                                <p id="imageText">Be part of the movement to preserve and protect our natural spaces. Together, we can make a difference for future generations.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notification -->
+    <div class="notification-card" id="notification" style="display: none;">
+        <span>
+          <i class="fa-solid fa-circle-info" style="color: #afeeb3;"></i>
+            <p>Hover to reveal each name, then click whenever you're ready to move on to the next card.</p>
+        </span>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="hero-container">
+                <h3>Purpose Driven</h3>
+                <h1 id="hero-title">Beyond Clean, Toward Change</h1>
+                <p>Our mission is to educate our community about the importance of caring for our parks and to encourage everyone to keep these shared spaces clean, safe, and welcoming. We aim to build simple habits, spark responsibility, and remind people that even small actions can help our parks thrive.</p>
+                <button class="learn-more">
+                    <a href="#join-vd">
+                        <span class="circle" aria-hidden="true">
+                            <span class="icon arrow"></span>
+                        </span>
+                        <span class="button-text">Let's Go!</span>
+                    </a>
+                </button>
+            </div>
+        </section>
+
+        <div class="join-vd" id="join-vd">
+            <div class="vd-container">
+                <div class="vdo">
+                    <video controls poster="images/clay.jpg">
+                        <source src="images/Clay.mp4" type="video/mp4">
+                        <source src="my_video.webm" type="video/webm">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="vd-right">
+                    <h2>Become a Park Hero!</h2>
+                    <p>Join our community of park enthusiasts and make a difference today. Sign up to receive updates on upcoming events, volunteer opportunities, and ways you can contribute to the revitalization of our beloved parks.</p>
+                    <button><a href="Events.html">Join Now</a></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-container">
+            <!-- Header -->
+            <div class="stats-header animate">
+                <h1>Park Action Statistics</h1>
+                <p>Track our progress in preserving and revitalizing parks in our local area. Each number represents a milestone in our collective effort.</p>
+            </div>
+            <!-- Statistics Grid -->
+            <div class="stats-grid">
+                <!-- Stat 1 -->
+                <div class="stat-card stat-1 animate">
+                    <div class="stat-icon">
+                        <i class="fas fa-trash"></i>
+                    </div>
+                    <div class="circle-progress">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="circle-bg" cx="50" cy="50" r="40"></circle>
+                            <circle class="circle-progress-bar" cx="50" cy="50" r="40" stroke-dasharray="251.2" stroke-dashoffset="251.2" data-current="95" data-percentage="95" data-goal="100"></circle>
+                        </svg>
+                        <div class="circle-value">95<span>/100</span></div>
+                        <div class="percentage-display">95%</div>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Bags of litter collected</h3>
+                        <p class="stat-description">Goal: 100 bags</p>
+                    </div>
+                </div>
+                <!-- Stat 2 -->
+                <div class="stat-card stat-2 animate">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="circle-progress">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="circle-bg" cx="50" cy="50" r="40"></circle>
+                            <circle class="circle-progress-bar" cx="50" cy="50" r="40" stroke-dasharray="251.2" stroke-dashoffset="251.2" data-current="4" data-percentage="67" data-goal="6"></circle>
+                        </svg>
+                        <div class="circle-value">4<span>/6</span></div>
+                        <div class="percentage-display">67%</div>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Weeks spent cleaning</h3>
+                        <div class="stat-description">Goal: 6 weeks</div>
+                    </div>
+                </div>
+                <!-- Stat 3 -->
+                <div class="stat-card stat-3 animate">
+                    <div class="stat-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="circle-progress">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="circle-bg" cx="50" cy="50" r="40"></circle>
+                            <circle class="circle-progress-bar" cx="50" cy="50" r="40" stroke-dasharray="251.2" stroke-dashoffset="251.2" data-current="25" data-percentage="50" data-goal="50"></circle>
+                        </svg>
+                        <div class="circle-value">25<span>/50</span></div>
+                        <div class="percentage-display">50%</div>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Stories shared on the platform</h3>
+                        <p class="stat-description">Goal: 50 stories</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== OUR GROUP'S STORY ===== -->
+        <div class="our-group-section">
+            <div class="group-section-header">
+                <h3><i class="fas fa-users"></i> Our Group's Story</h3>
+                <p>How we took small steps to make our park cleaner and raise awareness</p>
+            </div>
+
+            <div class="group-story">
+                <div class="story-content">
+                    <div class="story-badge">Real Experience</div>
+                    <h4>From Concern to Action</h4>
+    
+                    <div class="story-problem">
+                        <h5><i class="fas fa-exclamation-triangle"></i> The Problem We Saw</h5>
+                        <p>We noticed our local park had increasing amounts of litter - especially plastic bottles, food wrappers, and cigarette butts. It was affecting both the park's beauty and wildlife.</p>
+                        <div class="problem-stats">
+                            <div class="problem-stat">
+                                <i class="fas fa-trash"></i>
+                                <span>Most common: Plastic bottles & snack wrappers</span>
+                            </div>
+                            <div class="problem-stat">
+                                <i class="fas fa-clock"></i>
+                                <span>Trash accumulated over weekends</span>
+                            </div>
+                            <div class="problem-stat">
+                                <i class="fas fa-leaf"></i>
+                                <span>Affecting local plants and animals</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="story-action">
+                        <h5><i class="fas fa-hands-helping"></i> What We Actually Did</h5>
+                        <div class="action-steps">
+                            <div class="step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h6>Weekend Cleanup Sessions</h6>
+                                    <p>Every Saturday for a month, we spent 2 hours picking up trash in our local park. We separated recyclables from general waste.</p>
+                                    <div class="step-results">
+                                        <span class="result-badge"><i class="fas fa-bag-shopping"></i> 5 bags collected</span>
+                                        <span class="result-badge"><i class="fas fa-recycle"></i> 40% recyclable</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h6>Photo Documentation</h6>
+                                    <p>We took "before and after" photos to show the difference our cleanups made. The visual evidence was powerful!</p>
+                                    <div class="step-results">
+                                        <span class="result-badge"><i class="fas fa-camera"></i> 10+ photos</span>
+                                        <span class="result-badge"><i class="fas fa-eye"></i> Visual proof of impact</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h6>Awareness Posters</h6>
+                                    <p>We created simple posters about proper waste disposal and placed them near park trash cans.</p>
+                                    <div class="step-results">
+                                        <span class="result-badge"><i class="fas fa-paint-brush"></i> 3 posters made</span>
+                                        <span class="result-badge"><i class="fas fa-map-marker-alt"></i> Strategic locations</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <h6>Social Media Sharing</h6>
+                                    <p>Shared our cleanup photos and tips on Instagram and Facebook to encourage others to do the same.</p>
+                                    <div class="step-results">
+                                        <span class="result-badge"><i class="fas fa-share-alt"></i> 3+ shares</span>
+                                        <span class="result-badge"><i class="fas fa-comments"></i> Local community engaged</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="story-results">
+                        <h5><i class="fas fa-chart-line"></i> What We Learned</h5>
+                        <div class="results-grid">
+                            <div class="result-card">
+                                <div class="result-icon">
+                                    <i class="fas fa-lightbulb"></i>
+                                </div>
+                                <h6>Small Actions Matter</h6>
+                                <p>A few hours each week made visible improvements. We didn't need to be experts to make a difference.</p>
+                            </div>
+                            <div class="result-card">
+                                <div class="result-icon">
+                                    <i class="fas fa-comments"></i>
+                                </div>
+                                <h6>People Notice</h6>
+                                <p>Park visitors thanked us and some even joined! Our actions inspired others to be more mindful.</p>
+                            </div>
+                            <div class="result-card">
+                                <div class="result-icon">
+                                    <i class="fas fa-seedling"></i>
+                                </div>
+                                <h6>Sustainable Habits</h6>
+                                <p>We became more aware of our own waste habits and started carrying reusable bags and bottles.</p>
+                            </div>
+                            <div class="result-card">
+                                <div class="result-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <h6>Community Connection</h6>
+                                <p>Working together strengthened our group and connected us with park regulars.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="story-challenges">
+                        <h5><i class="fas fa-exclamation-circle"></i> Challenges We Faced</h5>
+                        <div class="challenges-list">
+                            <div class="challenge">
+                                <i class="fas fa-times-circle"></i>
+                                <div>
+                                    <strong>Weather dependent:</strong> Rainy days limited our cleanup sessions
+                                </div>
+                            </div>
+                            <div class="challenge">
+                                <i class="fas fa-times-circle"></i>
+                                <div>
+                                    <strong>Some litter was hazardous:</strong> Had to be extra careful with broken glass and sharp objects
+                                </div>
+                            </div>
+                            <div class="challenge">
+                                <i class="fas fa-times-circle"></i>
+                                <div>
+                                    <strong>Consistency:</strong> Keeping the momentum going required commitment
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="story-advice">
+                        <h5><i class="fas fa-graduation-cap"></i> Advice for Other Students</h5>
+                        <div class="advice-content">
+                            <p>"Start small. Pick one area you care about, gather a few friends, and commit to regular sessions. Document your progress - photos are motivating!"</p>
+                            
+                            <div class="advice-tips">
+                                <div class="tip">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Wear gloves and use trash grabbers for safety</span>
+                                </div>
+                                <div class="tip">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Separate recyclables to maximize impact</span>
+                                </div>
+                                <div class="tip">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Take before/after photos to track progress</span>
+                                </div>
+                                <div class="tip">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Share your story - it inspires others!</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Section -->
+        <section class="team-section" id="teammembers" aria-labelledby="team-title">
+            <div class="wtextcontainer">
+                <div class="textcontainer">
+                    <div class="first">
+                        <h1 class="f1">O</h1>
+                        <h1 class="f2">U</h1>
+                        <h1 class="f3">R</h1>
+                    </div>
+                    <div class="second">
+                        <h1 class="s1">T</h1>
+                        <h1 class="s2">E</h1>
+                        <h1 class="s3">A</h1>
+                        <h1 class="s4">M</h1>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="card" data-index="0">
+                        <img src="images/mpt-id.png" alt="Portrait of Mya Phue Thwe">
+                        <div class="abt-text">
+                            <h2>Mya Phue Thwe</h2>
+                        </div>
+                    </div>
+                    <div class="card" data-index="1">
+                        <img src="images/kmd-id.png" alt="Portrait of Kumudra">
+                        <div class="abt-text">
+                            <h2>Kumudra</h2>
+                        </div>
+                    </div>
+                    <div class="card" data-index="2">
+                        <img src="images/dkk-id.png" alt="Portrait of Do Kip Kip">
+                        <div class="abt-text">
+                            <h2>Do Kip Kip</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section class="gallery" aria-labelledby="gallery-title">
+            <div class="gallery-desc">
+                <h2 id="gallery-title" class="section-title">Gallery</h2>
+                <p class="gallery-description">Here's a glimpse of our team in action, picking up trash and restoring the park one step at a time.</p>
+            </div>
+            <div class="gallery-grid"> 
+                <div class="item item-a"><img src="images/imgA.png" alt="Team member cleaning up trash in the park"></div>
+                <div class="item item-b"><img src="images/imgB.png" alt="Community volunteers working together"></div>
+                <div class="item item-c"><img src="images/imgC.png" alt="Park restoration activity in progress"></div>
+                <div class="item item-d"><img src="images/imgD.png" alt="Clean-up drive results"></div>
+                <div class="item item-e"><img src="images/imgE.jpg" alt="Sorting recyclables during cleanup"></div>
+                <div class="item item-f"><img src="images/imgF.jpg" alt="Tree planting activity in the park"></div>
+                <div class="item item-g"><img src="images/imgG.gif" alt="Community celebration after successful cleanup"></div>
+                <div class="item item-h"><img src="images/upcoming2.jpg" alt="Community members celebrating cleanup success"></div>
+                <div class="item item-i"><img src="images/hosted1.jpg" alt="Children participating in park activities"></div>
+            </div>
+        </section>
+
+        <!-- Facilities Section -->
+        <section class="facilities" aria-labelledby="facilities-title">
+            <div class="left-side">
+                <div class="facilities-wrapper">
+                    <h2 id="facilities-title">Our Facilities</h2>
+                    <!-- Facilities List -->
+                    <div class="facilities-list">
+                        <article class="facility-item">
+                            <div class="circle"><i class="fa-solid fa-people-robbery"></i></div>
+                            <div class="text-block">
+                                <h3>Purpose 1</h3>
+                                <p>To mobilize community action by spotlighting clean-up drives, volunteer opportunities, tree-planting events, and hands-on micro-science projects that invite people to step into the work, not just watch it.</p>
+                            </div>
+                        </article>
+
+                        <article class="facility-item">
+                            <div class="circle"><i class="fa-solid fa-file-signature"></i></div>
+                            <div class="text-block">
+                                <h3>Purpose 2</h3>
+                                <p>To document and celebrate impact through interviews, field notes, and inspiring stories that give voice to volunteers, scientists, and locals—turning individual efforts into shared momentum.</p>
+                            </div>
+                        </article>
+
+                        <article class="facility-item">
+                            <div class="circle"><i class="fa-solid fa-ribbon"></i></div>
+                            <div class="text-block">
+                                <h3>Purpose 3</h3>
+                                <p>To track progress and sustain engagement with clear dashboards, live metrics, and organized updates that let visitors see real change unfolding and feel the pull to contribute.</p>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+            <!-- Facilities Image -->
+            <div class="facilities-image right-side">
+                <img src="images/no-trash.jpg" alt="Clean park environment showing our mission in action">
+            </div>
+        </section>
+
+        <!-- Map Section -->
+        <section class="map-section" aria-labelledby="map-title">
+            <h2 id="map-title">Local Parks in Yangon</h2>
+            <div class="map-wrapper">
+                <div id="map" style="width: 100%; max-width: 600px; height: 450px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);" 
+                    role="application" aria-label="Interactive map of local parks in Yangon">
+                </div>
+                <div class="map-description">
+                    <p>Each park on this map isn't just a place — it's a growing hub of community action. From clean-ups to small gatherings, every event is a chance to show up, get involved, and help shape greener, safer spaces for everyone. Explore what's happening near you, choose an event that speaks to you, and step into a movement that actually makes a difference.</p>
+                    <button class="button"><a href="Events.html">
+                        <span class="text">Explore Events</span>
+                    </a></button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ========== FOOTER ========== -->
+    <footer>
+        <div class="footer-container">
+            <!-- Quick Links Section -->
+            <div class="footer-section">
+                <h3><i class="fas fa-home"></i> Quick Links</h3>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home Base</a></li>
+                    <li><a href="About.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                    <li><a href="Events.html"><i class="fas fa-chevron-right"></i> Events</a></li>
+                </ul>
+            </div>
+
+            <!-- Resources Section -->
+            <div class="footer-section">
+                <h3><i class="fas fa-book-open"></i> Resources</h3>
+                <ul>
+                    <li><a href="Guide.html#content-section-1"><i class="fas fa-chevron-right"></i> Eco Guide</a></li>
+                    <li><a href="Guide.html#content-section-2"><i class="fas fa-chevron-right"></i> Eco Science</a></li>
+                    <li><a href="Guide.html#content-section-3"><i class="fas fa-chevron-right"></i> Change Wave</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact & Connect Section -->
+            <div class="footer-section">
+                <h3><i class="fas fa-envelope"></i> Connect</h3>
+                <p>Join our community for park updates and volunteer opportunities.</p>
+                
+                <div class="newsletter-form">
+                    <div class="input-container">
+                        <input class="input" name="text" type="email" id="email-input">
+                        <label class="label" for="email-input">Enter Your Email</label>
+                        <div class="topline"></div>
+                        <div class="underline"></div>
+                    </div>        
+                    <button type="submit">Subscribe</button>
+                </div>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>(+959) 265507224</span>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>parkpulselens@gmail.com</span>
+                    </div>
+                </div>
+
+                <div class="social-links">
+                    <a href="https://www.facebook.com"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com"><i class="fab fa-instagram"></i></a>
+                    <a href="https://x.com"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.youtube.com/?gl=VN"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <p>&copy; 2025 Park Pulse Lens: Park Action Hub. All rights reserved.</p>
+            
+            <div class="footer-links">
+                <a href="Privacy.html">Privacy</a>
+                <a href="Terms.html">Terms</a>
+                <a href="Reference.html">Reference</a>
+                <a href="Accessibility.html">Accessibility</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

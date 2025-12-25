@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ========== META TAGS & TITLE ========== -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Park Pulse Lens</title>
+
+    <!-- ========== FAVICON SETUP ========== -->
+    <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96"/>
+    <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg"/>
+    <link rel="shortcut icon" href="favicon/favicon.ico"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png"/>
+    <link rel="manifest" href="favicon/site.webmanifest"/>
+
+    <!-- ========== EXTERNAL LIBRARIES ========== -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Jost:ital,wght@0,100..900;1,100..900&family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <!-- ========== CUSTOM STYLES & SCRIPTS ========== -->
+    <!-- Nav Bar -->
+    <link rel="stylesheet" href="nav.css">
+    <script src="nav.js"></script>
+    <script src="simple-auth.js"></script>
+    <script src="helper.js"></script>
+    <script src="Dashboard.js"></script>
+    
+    <!-- About -->
+    <link rel="stylesheet" href="Guide.css">
+    <script src="Guide.js"></script>
+</head>
+
+<body>
+    <!-- ========== NAVIGATION BAR ========== -->
+    <nav class="navbar navbar-expand-lg px-5 sticky-top">
+        <a class="navbar-brand d-flex align-items-center" href="index.html">
+            <img src="images/logo1.png" alt="Logo" class="me-2" style="height:40px;">
+        </a>
+    
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home Base</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="About.html">About Us</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Resource</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="Guide.html#content-section-1">Eco Guide</a></li>
+                        <li><a class="dropdown-item" href="Guide.html#content-section-2">Eco Science</a></li>
+                        <li><a class="dropdown-item" href="Guide.html#content-section-3">Change Wave</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="Events.html">Events</a>
+                </li>
+                
+            </ul>
+        
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <!-- This button will be updated by JavaScript -->
+                    <button class="sign-in-btn btn" type="button" id="mainSignInBtn">Sign In</button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ========== MODALS SECTION ========== -->
+    <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content border-0">
+                <div class="modal-header border-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="login-container">
+                        <!-- Form Side -->
+                        <div class="form-side">
+                            <div class="logo-container">
+                                <img src="images/logo1.png" alt="Park Pulse Lens Logo">
+                                <h1 id="logoTitle">Welcome Back</h1>
+                                <p id="logoSubtitle">Sign in to continue your park conservation journey</p>
+                            </div>
+
+                            <!-- Login Form -->
+                            <form id="loginForm" class="form-switch">
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <div class="input-with-icon">
+                                        <i class="fas fa-envelope"></i>
+                                        <input type="email" id="loginEmail" name="email" placeholder="Enter your email" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <div class="input-with-icon password-container">
+                                        <i class="fas fa-lock"></i>
+                                        <input type="password" id="loginPassword" name="password" placeholder="Enter your password" required>
+                                        <span class="password-toggle" onclick="togglePassword('loginPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-options">
+                                    <div class="remember-me">
+                                        <input type="checkbox" id="remember" name="remember">
+                                        <label for="remember">Remember me</label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="submit-btn">Sign In</button>
+                                <div class="toggle-link">
+                                    Don't have an account? <a onclick="showSignupForm()">Sign up here</a>
+                                </div>
+                            </form>
+
+                            <!-- Signup Form -->
+                            <form id="signupForm" class="form-switch">
+                                <div class="name-fields">
+                                    <div class="form-group">
+                                        <label for="firstName">First Name</label>
+                                        <div class="input-with-icon">
+                                            <i class="fas fa-user"></i>
+                                            <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lastName">Last Name</label>
+                                        <div class="input-with-icon">
+                                            <i class="fas fa-user"></i>
+                                            <input type="text" id="lastName" name="lastName" placeholder="Enter your last name" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="signupEmail">Email Address</label>
+                                    <div class="input-with-icon">
+                                        <i class="fas fa-envelope"></i>
+                                        <input type="email" id="signupEmail" name="email" placeholder="Enter your email" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="signupPassword">Password</label>
+                                    <div class="input-with-icon password-container">
+                                        <i class="fas fa-lock"></i>
+                                        <input type="password" id="signupPassword" name="password" placeholder="Create a password" required>
+                                        <span class="password-toggle" onclick="togglePassword('signupPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirmPassword">Confirm Password</label>
+                                    <div class="input-with-icon password-container">
+                                        <i class="fas fa-lock"></i>
+                                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+                                        <span class="password-toggle" onclick="togglePassword('confirmPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-options">
+                                    <div class="remember-me">
+                                        <input type="checkbox" id="terms" name="terms" required>
+                                        <label for="terms">I agree to the Terms & Privacy Policy</label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="submit-btn">Create Account</button>
+                                <div class="toggle-link">
+                                    Already have an account? <a onclick="showLoginForm()">Login here</a>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Image Side -->
+                        <div class="image-side">
+                            <img src="images/join-log.png" alt="Beautiful Park Landscape">
+                            <div class="image-content">
+                                <h2 id="imageTitle">Join Our Park Conservation Community</h2>
+                                <p id="imageText">Be part of the movement to preserve and protect our natural spaces. Together, we can make a difference for future generations.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== HERO SECTION ========== -->
+    <div class="hero">
+        <div class="hero-container">
+            <!-- Number indicator -->
+            <div class="number">
+                <h5 class="no">01</h5>
+                <hr>
+                <p>ECO Guide</p>
+            </div>
+
+            <!-- Main titles -->
+            <div class="titles">
+                <div class="h1s">
+                    <h1>ECO</h1>
+                    <h1>GUIDE</h1>
+                </div>
+                <hr>
+                <h5>Learn How to Start Basic</h5>
+                
+                <!-- Navigation indicator -->
+                <div class="indicator">
+                    <span class="left" id="prev-btn"><i class="fa-solid fa-chevron-left"></i></span>
+                    <div class="line"></div>
+                    <div class="indicator-dots" id="indicator-dots">
+                        <!-- Dots added by JavaScript -->
+                    </div>
+                    <div class="line"></div>
+                    <span class="right" id="next-btn"><i class="fa-solid fa-chevron-right"></i></span>
+                </div>
+            </div>
+
+            <!-- Scroll down -->
+            <div class="scroll-down">
+                <a href="#content-section-1"><i class="fas fa-chevron-down"></i></a>
+            </div>
+            
+            <!-- Rotate button -->
+            <div class="rotate" id="rotate-btn">
+                <h5><a href="#" id="rotate-text">Poster</a></h5>
+                <hr>
+                <button><a href="javascript:void(0);"><i class="fa-solid fa-arrows-rotate"></i></a></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== MAIN CONTENT SECTIONS ========== -->
+    <div class="content-sections">
+        <!-- Back Button -->
+        <div class="back-btn">
+            <a href="#">
+                <hr>
+                <h5>Back</h5>
+            </a>
+        </div>
+
+        <!-- ========== SECTION 1: ECO GUIDE ========== -->
+        <div class="content-section" id="content-section-1">
+            <div class="body-content">
+                <!-- Content Title -->
+                <div class="content-title">
+                    <h2>Eco Habits aren't about Perfection</h2>
+                    <p>They're about small, consistent choices that make parks, homes, and communities cleaner and healthier.</p>
+                    <div class="line"></div>
+                </div>
+
+                <!-- Three R's Section -->
+                <div class="three-r">
+                    <div class="three-r-container">
+                        <div class="r">
+                            <div class="icon"><h5>Reduce</h5></div>
+                            <img src="images/reuse.png" alt="">
+                        </div>
+                        <div class="r">
+                            <div class="icon"><h5>Reuse</h5></div>
+                            <img src="images/reduce.png" alt="">
+                        </div>
+                        <div class="r">
+                            <div class="icon"><h5>Recycle</h5></div>
+                            <img src="images/recycle.png" alt="">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accordion Section -->
+                <div class="acc-section">
+                    <div class="acc-container">
+                        <h2>How to Sort</h2>
+                        <p class="section-subtitle">Click on each card to learn proper sorting techniques</p>
+            
+                        <div class="horizon-accordion-wrapper">
+                            <div class="horizon-accordion">
+                                <!-- Plastics Card -->
+                                <div class="accordion-card active">
+                                    <div class="card-icon">
+                                        <i class="fa-solid fa-bottle-water"></i>
+                                    </div>
+                                    <div class="card-header">
+                                        <h3>Plastics</h3>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-details">
+                                            <div class="do-list">
+                                                <h4><i class="fas fa-check-circle"></i> DO</h4>
+                                                <ul>
+                                                    <li>Clean bottles & containers</li>
+                                                    <li>Rigid plastics with symbols</li>
+                                                    <li>Remove caps and rinse</li>
+                                                </ul>
+                                            </div>
+                                            <div class="dont-list">
+                                                <h4><i class="fas fa-times-circle"></i> DON'T</h4>
+                                                <ul>
+                                                    <li>Plastic bags in recycling</li>
+                                                    <li>Food contaminated items</li>
+                                                    <li>Styrofoam packaging</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="card-tip">
+                                            <i class="fas fa-lightbulb"></i>
+                                            <strong>Tip:</strong> Rinse and flatten to save space
+                                        </div>
+                                    </div>
+                                </div>
+                    
+                                <!-- Paper Card -->
+                                <div class="accordion-card">
+                                    <div class="card-icon">
+                                        <i class="fas fa-newspaper"></i>
+                                    </div>
+                                    <div class="card-header">
+                                        <h3>Paper</h3>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-details">
+                                            <div class="do-list">
+                                                <h4><i class="fas fa-check-circle"></i> DO</h4>
+                                                <ul>
+                                                    <li>Newspapers & magazines</li>
+                                                    <li>Cardboard boxes (flatten)</li>
+                                                    <li>Office paper & envelopes</li>
+                                                </ul>
+                                            </div>
+                                            <div class="dont-list">
+                                                <h4><i class="fas fa-times-circle"></i> DON'T</h4>
+                                                <ul>
+                                                    <li>Greasy pizza boxes</li>
+                                                    <li>Wax paper or receipts</li>
+                                                    <li>Tissue paper or napkins</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="card-tip">
+                                            <i class="fas fa-lightbulb"></i>
+                                            <strong>Tip:</strong> Remove staples and tape
+                                        </div>
+                                    </div>
+                                </div>
+                    
+                                <!-- Glass Card -->
+                                <div class="accordion-card">
+                                    <div class="card-icon">
+                                        <i class="fas fa-glass-whiskey"></i>
+                                    </div>
+                                    <div class="card-header">
+                                        <h3>Glass</h3>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-details">
+                                            <div class="do-list">
+                                                <h4><i class="fas fa-check-circle"></i> DO</h4>
+                                                <ul>
+                                                    <li>Bottles & jars (all colors)</li>
+                                                    <li>Clean glass containers</li>
+                                                    <li>Remove lids separately</li>
+                                                </ul>
+                                            </div>
+                                            <div class="dont-list">
+                                                <h4><i class="fas fa-times-circle"></i> DON'T</h4>
+                                                <ul>
+                                                    <li>Windows or mirrors</li>
+                                                    <li>Ceramics or dishware</li>
+                                                    <li>Light bulbs</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="card-tip">
+                                            <i class="fas fa-lightbulb"></i>
+                                            <strong>Tip:</strong> Don't break glass
+                                        </div>
+                                    </div>
+                                </div>
+                    
+                                <!-- Metals Card -->
+                                <div class="accordion-card">
+                                    <div class="card-icon">
+                                        <i class="fas fa-weight-hanging"></i>
+                                    </div>
+                                    <div class="card-header">
+                                        <h3>Metals</h3>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-details">
+                                            <div class="do-list">
+                                                <h4><i class="fas fa-check-circle"></i> DO</h4>
+                                                <ul>
+                                                    <li>Aluminum cans (crush)</li>
+                                                    <li>Tin/steel food cans</li>
+                                                    <li>Clean aluminum foil</li>
+                                                </ul>
+                                            </div>
+                                            <div class="dont-list">
+                                                <h4><i class="fas fa-times-circle"></i> DON'T</h4>
+                                                <ul>
+                                                    <li>Aerosol cans (full)</li>
+                                                    <li>Scrap metal pieces</li>
+                                                    <li>Paint cans with residue</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="card-tip">
+                                            <i class="fas fa-lightbulb"></i>
+                                            <strong>Tip:</strong> Crush cans to save space
+                                        </div>
+                                    </div>
+                                </div>
+                    
+                                <!-- Organics Card -->
+                                <div class="accordion-card">
+                                    <div class="card-icon">
+                                        <i class="fas fa-leaf"></i>
+                                    </div>
+                                    <div class="card-header">
+                                        <h3>Organics</h3>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-details">
+                                            <div class="do-list">
+                                                <h4><i class="fas fa-check-circle"></i> DO</h4>
+                                                <ul>
+                                                    <li>Fruit/vegetable scraps</li>
+                                                    <li>Coffee grounds & filters</li>
+                                                    <li>Eggshells & nutshells</li>
+                                                </ul>
+                                            </div>
+                                            <div class="dont-list">
+                                                <h4><i class="fas fa-times-circle"></i> DON'T</h4>
+                                                <ul>
+                                                    <li>Meat, fish, or dairy</li>
+                                                    <li>Cooking oils or grease</li>
+                                                    <li>Pet waste or litter</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="card-tip">
+                                            <i class="fas fa-lightbulb"></i>
+                                            <strong>Tip:</strong> Use compostable bags
+                                        </div>
+                                    </div>
+                                </div>
+                    
+                                <!-- Electronics Card -->
+                                <div class="accordion-card">
+                                    <div class="card-icon">
+                                        <i class="fas fa-laptop"></i>
+                                    </div>
+                                    <div class="card-header">
+                                        <h3>Electronics</h3>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-details">
+                                            <div class="do-list">
+                                                <h4><i class="fas fa-check-circle"></i> DO</h4>
+                                                <ul>
+                                                    <li>Phones & tablets</li>
+                                                    <li>Computers & cables</li>
+                                                    <li>Batteries (separate)</li>
+                                                </ul>
+                                            </div>
+                                            <div class="dont-list">
+                                                <h4><i class="fas fa-times-circle"></i> DON'T</h4>
+                                                <ul>
+                                                    <li>In regular trash</li>
+                                                    <li>In curbside recycling</li>
+                                                    <li>Break or dismantle</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="card-tip">
+                                            <i class="fas fa-lightbulb"></i>
+                                            <strong>Tip:</strong> Find e-waste drop-off
+                                        </div>
+                                    </div>
+                                </div>
+                    
+                                <!-- Textiles Card -->
+                                <div class="accordion-card">
+                                    <div class="card-icon">
+                                        <i class="fas fa-tshirt"></i>
+                                    </div>
+                                    <div class="card-header">
+                                        <h3>Textiles</h3>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-details">
+                                            <div class="do-list">
+                                                <h4><i class="fas fa-check-circle"></i> DO</h4>
+                                                <ul>
+                                                    <li>Clean clothing (donate)</li>
+                                                    <li>Shoes (paired together)</li>
+                                                    <li>Linens & towels</li>
+                                                </ul>
+                                            </div>
+                                            <div class="dont-list">
+                                                <h4><i class="fas fa-times-circle"></i> DON'T</h4>
+                                                <ul>
+                                                    <li>Wet or moldy items</li>
+                                                    <li>Carpeting or rugs</li>
+                                                    <li>Pillows or cushions</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="card-tip">
+                                            <i class="fas fa-lightbulb"></i>
+                                            <strong>Tip:</strong> Donate wearable items
+                                        </div>
+                                    </div>
+                                </div>
+                    
+                                <!-- Hazardous Card -->
+                                <div class="accordion-card">
+                                    <div class="card-icon">
+                                        <i class="fas fa-skull-crossbones"></i>
+                                    </div>
+                                    <div class="card-header">
+                                        <h3>Hazardous</h3>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-details">
+                                            <div class="do-list">
+                                                <h4><i class="fas fa-check-circle"></i> DO</h4>
+                                                <ul>
+                                                    <li>Special drop-off only</li>
+                                                    <li>Paint & chemicals</li>
+                                                    <li>Batteries & bulbs</li>
+                                                </ul>
+                                            </div>
+                                            <div class="dont-list">
+                                                <h4><i class="fas fa-times-circle"></i> DON'T</h4>
+                                                <ul>
+                                                    <li>In regular trash</li>
+                                                    <li>Down drains or toilets</li>
+                                                    <li>In recycling bins</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="card-tip">
+                                            <i class="fas fa-lightbulb"></i>
+                                            <strong>Tip:</strong> Check community waste days
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transformation Section -->
+                <div class="transformation-section">
+                    <div class="transformation-container">
+                        <!-- Background Image Container -->
+                        <div class="bg-image-container">
+                            <div class="bg-image active" style="background-image: url('images/guide-trans01.jpg');">
+                                <div class="image-overlay">
+                                </div>
+                            </div>
+                            <div class="bg-image" style="background-image: url('images/guide-trans02.jpg');">
+                                <div class="image-overlay">
+                                </div>
+                            </div>
+                            <div class="bg-image" style="background-image: url('images/guide-trans03.jpg');">
+                                <div class="image-overlay">
+                                </div>
+                            </div>
+                        </div>
+            
+                        <!-- Transformation Descriptions -->
+                        <div class="transformation-content">
+                            <div class="transformation-descs">
+                                <!-- Logo Button to Change Background -->
+                                <div class="tran-desc logo-btn-container">
+                                    <div class="icon logo-btn" id="transform-btn">
+                                        <img src="images/logo1.png" alt="Park Pulse Logo">
+                                        <div class="btn-label">Relaxation!</div>
+                                    </div>
+                                    <div class="counter">
+                                        <span id="current-bg">1</span>/<span id="total-bg">3</span>
+                                    </div>
+                                </div>
+                            </div>
+            
+                            <!-- Navigation Dots -->
+                            <div class="bg-nav-dots">
+                                <div class="dot active" data-index="0"></div>
+                                <div class="dot" data-index="1"></div>
+                                <div class="dot" data-index="2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Myth Section -->
+                <div class="myth">
+                    <div class="myth-container">
+                        <!-- Left Side: Myth Cards & Stats -->
+                        <div class="myth-left">
+                            <h2>Myth Busting</h2>
+                            <p class="subtitle">Separating fact from fiction in eco-awareness</p>
+                
+                            <!-- Myth Cards Grid -->
+                            <div class="myth-cards-grid">
+                                <!-- Card 1 -->
+                                <div class="myth-card myth-card-1">
+                                    <div class="myth-card-header">
+                                        <div class="myth-icon">
+                                            <i class="fas fa-times-circle"></i>
+                                        </div>
+                                        <h4>Myth</h4>
+                                    </div>
+                                    <div class="myth-card-content">
+                                        <p>"All plastic can be recycled"</p>
+                                    </div>
+                                </div>
+                    
+                                <!-- Card 2 -->
+                                <div class="myth-card myth-card-2">
+                                    <div class="myth-card-header">
+                                        <div class="myth-icon">
+                                            <i class="fas fa-check-circle"></i>
+                                        </div>
+                                        <h4>Fact</h4>
+                                    </div>
+                                    <div class="myth-card-content">
+                                        <p>Only plastics with recycling symbols 1, 2, and 5 are widely recyclable. Plastic bags and Styrofoam need special handling.</p>
+                                    </div>
+                                </div>
+                    
+                                <!-- Card 3 -->
+                                <div class="myth-card myth-card-3">
+                                    <div class="myth-card-header">
+                                        <div class="myth-icon">
+                                            <i class="fas fa-times-circle"></i>
+                                        </div>
+                                        <h4>Myth</h4>
+                                    </div>
+                                    <div class="myth-card-content">
+                                        <p>"Recycling uses more energy than it saves"</p>
+                                    </div>
+                                </div>
+                    
+                                <!-- Card 4 -->
+                                <div class="myth-card myth-card-4">
+                                    <div class="myth-card-header">
+                                        <div class="myth-icon">
+                                            <i class="fas fa-check-circle"></i>
+                                        </div>
+                                        <h4>Fact</h4>
+                                    </div>
+                                    <div class="myth-card-content">
+                                        <p>Recycling aluminum saves 95% energy vs new production. Paper recycling saves 40% energy and reduces water usage by 58%.</p>
+                                    </div>
+                                </div>
+                    
+                                <!-- Card 5 -->
+                                <div class="myth-card myth-card-5">
+                                    <div class="myth-card-header">
+                                        <div class="myth-icon">
+                                            <i class="fas fa-times-circle"></i>
+                                        </div>
+                                        <h4>Myth</h4>
+                                    </div>
+                                    <div class="myth-card-content">
+                                        <p>"Biodegradable products break down in landfills"</p>
+                                    </div>
+                                </div>
+                    
+                                <!-- Card 6 -->
+                                <div class="myth-card myth-card-6">
+                                    <div class="myth-card-header">
+                                        <div class="myth-icon">
+                                            <i class="fas fa-check-circle"></i>
+                                        </div>
+                                        <h4>Fact</h4>
+                                    </div>
+                                    <div class="myth-card-content">
+                                        <p>Landfills lack oxygen for proper decomposition. Most biodegradable items need commercial composting facilities.</p>
+                                    </div>
+                                </div>
+                            </div>
+                
+                            <!-- Stats Section -->
+                            <div class="myth-stats">
+                                <div class="stat-item">
+                                    <div class="stat-number">30%</div>
+                                    <div class="stat-label">of recycling gets contaminated by improper sorting</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">91%</div>
+                                    <div class="stat-label">of plastic isn't recycled globally</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">75%</div>
+                                    <div class="stat-label">reduction in energy use when recycling aluminum</div>
+                                </div>
+                            </div>
+
+                            <!-- Quote Section -->
+                            <div class="myth-quote">
+                                <div class="quote-icon">
+                                    <i class="fas fa-quote-left"></i>
+                                </div>
+                                <p class="quote-text">"The greatest threat to our planet is the belief that someone else will save it."</p>
+                                <p class="quote-author">- Robert Swan, Polar Explorer</p>
+                                <div class="quote-decoration">
+                                    <div class="deco-line"></div>
+                                    <i class="fas fa-recycle"></i>
+                                    <div class="deco-line"></div>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <!-- Right Side: Interactive Visual -->
+                        <div class="myth-right">
+                            <!-- Interactive Myth Visual -->
+                            <div class="myth-visual">
+                                <div class="visual-container">
+                                    <div class="visual-title">
+                                        <h3><i class="fas fa-lightbulb"></i> Did You Know?</h3>
+                                    </div>
+                        
+                                    <!-- Myth vs Fact Comparison -->
+                                    <div class="comparison-container">
+                                        <div class="comparison-item myth-side">
+                                            <div class="comparison-header">
+                                                <i class="fas fa-times"></i>
+                                                <h4>Common Myths</h4>
+                                            </div>
+                                            <ul class="comparison-list">
+                                                <li>"Recycling is pointless"</li>
+                                                <li>"Everything gets mixed anyway"</li>
+                                                <li>"One person doesn't make a difference"</li>
+                                                <li>"Paper recycling wastes water"</li>
+                                                <li>"Glass can't be recycled endlessly"</li>
+                                            </ul>
+                                        </div>
+                            
+                                        <div class="comparison-arrow">
+                                            <i class="fas fa-arrow-right"></i>
+                                        </div>
+                            
+                                        <div class="comparison-item fact-side">
+                                            <div class="comparison-header">
+                                                <i class="fas fa-check"></i>
+                                                <h4>Science-Based Facts</h4>
+                                            </div>
+                                            <ul class="comparison-list">
+                                                <li>Each ton recycled saves energy</li>
+                                                <li>Proper sorting creates quality materials</li>
+                                                <li>Collective action drives systemic change</li>
+                                                <li>Paper recycling uses less water than new paper</li>
+                                                <li>Glass can be recycled infinitely without quality loss</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                        
+                                    <!-- Interactive Myth Quiz -->
+                                    <div class="myth-quiz">
+                                        <h4><i class="fas fa-question-circle"></i> Quick Quiz</h4>
+                                        <p class="quiz-question">Is it better to recycle plastic with food residue or throw it away?</p>
+                                        <div class="quiz-options">
+                                            <button class="quiz-option" data-correct="false">Throw it away</button>
+                                            <button class="quiz-option" data-correct="true">Rinse and recycle</button>
+                                        </div>
+                                        <div class="quiz-feedback">
+                                            <p><i class="fas fa-info-circle"></i> <strong>Answer:</strong> Rinse lightly and recycle! Food contamination ruins entire batches of recycling.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="myth-image"><img src="images/guide-myth.png" alt=""></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== SECTION 2: ECO SCIENCE ========== -->
+        <div class="content-section" id="content-section-2">
+            <div class="body-content">
+                <!-- Content Title -->
+                <div class="content-title science-title">
+                    <h2>Every park is a living laboratory.</h2>
+                    <p>With simple observations and mini-experiments, students can explore soil health, biodiversity, air quality, and natural cycles — all without special equipment.</p>
+                    <div class="line"></div>
+                </div>
+                
+                <!-- Discoveries Section -->
+                <!-- ===== FUTURE IMPROVEMENTS DISCOVERIES ===== -->
+                <div class="discoveries-section" id="discoveries-section">
+                    <div class="ds-title">
+                        <h3 class="section-heading">Future Improvements Discoveries</h3>
+                        <p class="section-subtitle">Global upgrades reshaping the future of public parks.</p>
+                    </div>
+
+                    <!-- Convert static grid to carousel -->
+                    <div id="discoveriesCarousel" class="carousel slide" data-bs-ride="false">
+                        <!-- Custom Navigation Arrows -->
+                        <button class="carousel-control-custom prev" type="button" data-bs-target="#discoveriesCarousel" data-bs-slide="prev">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        
+                        <button class="carousel-control-custom next" type="button" data-bs-target="#discoveriesCarousel" data-bs-slide="next">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+
+                        <div class="carousel-inner">
+                            <!-- Slide 1 (3 cards) -->
+                            <div class="carousel-item active">
+                                <div class="discoveries-grid">
+                                    <!-- Discovery 1 -->
+                                    <div class="discovery-card one">
+                                        <div class="spot"></div>
+                                        <div class="circle"></div>
+                                        <div class="discovery-icon">
+                                            <i class="fas fa-seedling"></i>
+                                        </div>
+                                        <h4>Green Infrastructure</h4>
+                                        <p>Parks integrate stormwater systems, bioswales, and permeable surfaces to reduce flooding and improve water quality.</p>
+                                        <span class="discovery-tag">Sustainability</span>
+                                        <div class="discovery-meta">
+                                            <span><i class="far fa-clock"></i> 6 months</span>
+                                            <span><i class="fas fa-chart-line"></i> Advanced</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Discovery 2 -->
+                                    <div class="discovery-card two">
+                                        <div class="spot"></div>
+                                        <div class="circle"></div>
+                                        <div class="discovery-icon">
+                                            <i class="fas fa-bug"></i>
+                                        </div>
+                                        <h4>Biodiversity Corridors</h4>
+                                        <p>Parks optimize microclimates and support native species through layered planting and strategic design.</p>
+                                        <span class="discovery-tag">Ecology</span>
+                                        <div class="discovery-meta">
+                                            <span><i class="far fa-clock"></i> 9 months</span>
+                                            <span><i class="fas fa-chart-line"></i> Intermediate</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Discovery 3 -->
+                                    <div class="discovery-card three">
+                                        <div class="spot"></div>
+                                        <div class="circle"></div>
+                                        <div class="discovery-icon">
+                                            <i class="fas fa-water"></i>
+                                        </div>
+                                        <h4>Adaptive Reuse Parks</h4>
+                                        <p>Transforming highways into elevated green walkways with native plants and community seating.</p>
+                                        <span class="discovery-tag">Urban Design</span>
+                                        <div class="discovery-meta">
+                                            <span><i class="far fa-clock"></i> 12 months</span>
+                                            <span><i class="fas fa-chart-line"></i> Beginner</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 2 (3 cards) -->
+                            <div class="carousel-item">
+                                <div class="discoveries-grid">
+                                    <!-- Discovery 4 -->
+                                    <div class="discovery-card four">
+                                        <div class="spot"></div>
+                                        <div class="circle"></div>
+                                        <div class="discovery-icon">
+                                            <i class="fas fa-leaf"></i>
+                                        </div>
+                                        <h4>Waterway Integration</h4>
+                                        <p>Repurposing canals into naturalized rivers for flood control, water purification, and recreation.</p>
+                                        <span class="discovery-tag">Air Quality</span>
+                                        <div class="discovery-meta">
+                                            <span><i class="far fa-clock"></i> 9 months</span>
+                                            <span><i class="fas fa-chart-line"></i> Advanced</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Discovery 5 -->
+                                    <div class="discovery-card five">
+                                        <div class="spot"></div>
+                                        <div class="circle"></div>
+                                        <div class="discovery-icon">
+                                            <i class="fas fa-route"></i>
+                                        </div>
+                                        <h4>Wildlife Connectivity</h4>
+                                        <p>Connected green spaces increase wildlife movement by 40% in urban areas through strategic corridor design.</p>
+                                        <span class="discovery-tag">Urban Ecology</span>
+                                        <div class="discovery-meta">
+                                            <span><i class="far fa-clock"></i> 8 months</span>
+                                            <span><i class="fas fa-chart-line"></i> Advanced</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Discovery 6 -->
+                                    <div class="discovery-card six">
+                                        <div class="spot"></div>
+                                        <div class="circle"></div>
+                                        <div class="discovery-icon">
+                                            <i class="fas fa-lightbulb"></i>
+                                        </div>
+                                        <h4>Sustainable Park Lighting</h4>
+                                        <p>LED lighting reduces energy consumption by 60% while improving nighttime safety and reducing light pollution.</p>
+                                        <span class="discovery-tag">Energy Efficiency</span>
+                                        <div class="discovery-meta">
+                                            <span><i class="far fa-clock"></i> 4 months</span>
+                                            <span><i class="fas fa-chart-line"></i> Intermediate</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Carousel Indicators (optional) -->
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#discoveriesCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#discoveriesCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Latest Discoveries Section -->
+                <div class="latest-discoveries">
+                    <h3 class="section-heading"><i class="fas fa-star"></i> Latest Discoveries</h3>
+                    <p class="section-subtitle">Fresh findings from recent park investigations</p>
+                    
+                    <div class="latest-container">
+                        <!-- Left Side - Main Feature -->
+                        <div class="latest-main">
+                            <div class="feature-video">
+                                <div class="video-player-container">
+                                    <div class="video-wrapper">
+                                        <video id="main-video" controls poster="images/sci-video2.jpg">
+                                            <source src="images/sci-video2.mp4" type="video/mp4">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="feature-details">
+                                <div class="feature-date">
+                                    <span class="date-day">23</span>
+                                    <span class="date-month">DEC</span>
+                                    <span class="date-year">2020</span>
+                                </div>
+                                <div class="feature-content">
+                                    <h4 class="feature-title">Smart Solar Bench MINI</h4>
+                                    <p class="feature-author"><i class="fas fa-user"></i> Eco Renewable Energy</p>
+                                    <p class="feature-description">Benches equipped with solar panels offer phone charging, Wi-Fi, and environmental sensors. They promote sustainability and comfort in public spaces.</p>
+                                    <div class="feature-tags">
+                                        <span class="tag">Solar Power</span>
+                                        <span class="tag">Smart City</span>
+                                        <span class="tag badge-new">GREEN TECH</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Right Side - Discovery List -->
+                        <div class="latest-sidebar">
+                            <h4 class="sidebar-title">Recent Studies</h4>
+                            <div class="discovery-list">
+                                <!-- Discovery Item 1 -->
+                                <div class="discovery-item" data-feature="1">
+                                    <div class="item-thumbnail">
+                                        <img src="images/sci-result.jpg" alt="">
+                                        <div class="item-badge">Featured</div>
+                                    </div>
+                                    <div class="item-info">
+                                        <div class="item-date">08 DEC 2025</div>
+                                        <h5 class="item-title">Bio-Mechanical Energy Harvestings</h5>
+                                        <p class="item-author">WE BARE BEARS</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Discovery Item 2 -->
+                                <div class="discovery-item active" data-feature="2">
+                                    <div class="item-thumbnail">
+                                        <img src="images/sci-video2.jpg" alt="">
+                                    </div>
+                                    <div class="item-info">
+                                        <div class="item-date">23 DEC 2020</div>
+                                        <h5 class="item-title">Smart Solar Bench MINI</h5>
+                                        <p class="item-author">Eco Renewable Energy</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Discovery Item 3 -->
+                                <div class="discovery-item" data-feature="3">
+                                    <div class="item-thumbnail">
+                                        <img src="images/sci-video3.jpg" alt="Litter Decomposition">
+                                    </div>
+                                    <div class="item-info">
+                                        <div class="item-date">20 APR 2022</div>
+                                        <h5 class="item-title">Waste Sorting Robot Kit Demo Video</h5>
+                                        <p class="item-author">Hiwonder</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Experiment Section -->
+                <div class="experiment-section py-5 container" id="experiments">
+                    <div class="experiment-container row justify-content-center">
+                        <div class="ex-title col-12">
+                            <h3><i class="fas fa-flask"></i> Park Care Challenges</h3>
+                            <p>Simple responsibilities you should do in any park</p>
+                        </div>
+                        
+                        <!-- Challenge 1 -->
+                        <div class="col-md-4 mb-4">
+                            <div class="one card h-100 shadow-sm">
+                                <div class="card-body">
+                                    <h5 class="card-title">Poop Patrol</h5>
+                                    <div class="spot"></div>
+                                    <div class="circle"></div>
+                                    <p class="card-text d-flex flex-column">
+                                        <div class="d-flex">
+                                            <span class="narrow-col">01.</span>
+                                            <span class="wide-col">Bring waste bags when walking your dog.</span>
+                                        </div>
+                                        <div class="d-flex">
+                                            <span class="narrow-col">02.</span>
+                                            <span class="wide-col">Pick up and properly dispose of pet waste.</span>
+                                        </div>
+                                        <div class="d-flex">
+                                            <span class="narrow-col">03.</span>
+                                            <span class="wide-col">Encourage others to do the same.</span>
+                                        </div>
+                                    </p>
+                                    <div class="card-text text-start">
+                                        <i class="fa-solid fa-seedling fa-bounce"></i> <br>
+                                        Note: Clean parks = happy paws and people! Perfect for responsible pet owners.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Challenge 2 -->
+                        <div class="col-md-4 mb-4">
+                            <div class="two card h-100 shadow-sm">
+                                <div class="card-body">
+                                    <h5 class="card-title">Trash Treasure Hunt</h5>
+                                    <div class="spot"></div>
+                                    <div class="circle"></div>
+                                    <p class="card-text d-flex flex-column">
+                                        <div class="d-flex">
+                                            <span class="narrow-col">01.</span>
+                                            <span class="wide-col">Grab gloves and a small trash bag.</span>
+                                        </div>
+                                        <div class="d-flex">
+                                            <span class="narrow-col">02.</span>
+                                            <span class="wide-col">Collect litter as you stroll through the park.</span>
+                                        </div>
+                                        <div class="d-flex">
+                                            <span class="narrow-col">03.</span>
+                                            <span class="wide-col">Sort recyclables if possible.</span>
+                                        </div>
+                                    </p>
+                                    <div class="card-text text-start">
+                                        <i class="fa-solid fa-bug fa-bounce"></i> <br>
+                                        Note: Every piece picked up helps wildlife and keeps nature beautiful! Great for eco-heroes
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== SECTION 3: CHANGE WAVE ========== -->
+        <div class="content-section" id="content-section-3">
+            <div class="body-content">
+                <!-- Content Title -->
+                <div class="content-title">
+                    <h2>Community Voices Making a Difference</h2>
+                    <p>Real stories from people who are transforming their communities through sustainable actions and environmental advocacy.</p>
+                    <div class="line"></div>
+                </div>
+
+                <!-- ===== POSTERS & CAMPAIGNS SECTION ===== -->
+                <div class="campaigns-section">
+                    <div class="section-header">
+                        <h3><i class="fas fa-bullhorn"></i> Posters & Campaigns</h3>
+                        <p>Resources to amplify environmental messages in your community</p>
+                    </div>
+
+                    <!-- Featured Campaign -->
+                    <div class="featured-campaign">
+                        <div class="campaign-content">
+                            <div class="campaign-badge">A Moment Worth Noticing</div>
+                            <h4>"When Parks Are Ignored"</h4>
+                            <p class="campaign-description">
+                                Litter left behind. Benches unused. Paths forgotten. <br>
+                                This short visual story captures what happens when green spaces are overlooked — <br>
+                                and how small acts of care can quietly change the atmosphere of a place. <br>
+                                Not a campaign. Not a lecture. <br>
+                                Just something to pause and think about.
+                            </p>
+                            
+                            <div class="campaign-stats">
+                                <div class="stat">
+                                    <div class="stat-number">Every Day</div>
+                                    <div class="stat-label">Parks Are Passed By</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-number">Few Minutes</div>
+                                    <div class="stat-label">Can Change a Space</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-number">One Choice</div>
+                                    <div class="stat-label">Not to Look Away</div>
+                                </div>
+                            </div>
+                            
+                            <div class="campaign-actions">
+                                <button class="btn-join-campaign">
+                                    <a href="Events.html">
+                                        <i class="fas fa-calendar-check"></i> Join Campaign
+                                    </a>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="campaign-poster">
+                            <video controls poster="images/inspo.png">
+                                <source src="images/Inspiration.mp4" type="video/mp4">
+                                <source src="my_video.webm" type="video/webm">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </div>
+
+                    <!-- Posters Gallery -->
+                    <div class="posters-gallery">
+                        <div class="gallery-header">
+                            <h4><i class="fas fa-paint-brush"></i> Our Posters</h4>
+                            <p>Resources to promote environmental awareness</p>
+                        </div>
+                        
+                        <div class="posters-grid">
+                            <!-- Poster 1 -->
+                            <div class="poster-card">
+                                <div class="poster-image">
+                                    <img src="images/poster01.png" alt="Recycle Right">
+                                </div>
+                                <div class="poster-info">
+                                    <h5>Breathing Spaces</h5>
+                                    <p>A Discursive Exploration</p>
+                                    <div class="poster-meta">
+                                        <span class="format">We BARE BEAR</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Poster 2 -->
+                            <div class="poster-card">
+                                <div class="poster-image">
+                                    <img src="images/poster02.png" alt="Save Water">
+                                </div>
+                                <div class="poster-info">
+                                    <h5>Evergreen Care</h5>
+                                    <p>Awareness Poster</p>
+                                    <div class="poster-meta">
+                                        <span class="format">WE BARE BEAR</span>
+                                        <span class="downloads">Global Perspective</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Poster 3 -->
+                            <div class="poster-card">
+                                <div class="poster-image">
+                                    <img src="images/poster03.png" alt="Community Cleanup">
+                                </div>
+                                <div class="poster-info">
+                                    <h5>One Flock, One Future</h5>
+                                    <p>Campaign Poster</p>
+                                    <div class="poster-meta">
+                                        <span class="format">WE BARE BEAR</span>
+                                        <span class="downloads">Global Perspective</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== ACTIVIST SPOTLIGHT ===== -->
+                <div class="activists-section">
+                    <div class="section-header">
+                        <h3><i class="fas fa-star"></i> Global Activist Spotlight</h3>
+                        <p>Meet the changemakers leading environmental movements worldwide</p>
+                    </div>
+
+                    <!-- Activist Cards -->
+                    <div class="activists-grid">
+                        <!-- Greta Thunberg -->
+                        <div class="activist-card">
+                            <div class="activist-image">
+                                <img src="images/greta.jpg" alt="Greta Thunberg">
+                                <div class="activist-badge">Youth Activist</div>
+                                <div class="activist-logo">
+                                    <i class="fas fa-fist-raised"></i>
+                                </div>
+                            </div>
+                            <div class="activist-info">
+                                <h4>Greta Thunberg</h4>
+                                <p class="activist-role">Climate Activist, Fridays for Future</p>
+                                <div class="activist-country"><i class="fas fa-globe-europe"></i> Sweden</div>
+                                <p class="activist-quote">"No one is too small to make a difference. Our house is on fire - I want you to panic."</p>
+                                
+                                <div class="activist-impact">
+                                    <h5>Key Achievements</h5>
+                                    <ul>
+                                        <li>Started global School Strike for Climate movement</li>
+                                        <li>Inspired 4 million+ people to join climate strikes</li>
+                                        <li>Spoke at UN Climate Action Summit 2019</li>
+                                        <li>Nominated for Nobel Peace Prize 3 times</li>
+                                    </ul>
+                                </div>
+
+                                <div class="activist-stats">
+                                    <div class="stat">
+                                        <div class="stat-number">7M+</div>
+                                        <div class="stat-label">Social Media Followers</div>
+                                    </div>
+                                    <div class="stat">
+                                        <div class="stat-number">150+</div>
+                                        <div class="stat-label">Countries Inspired</div>
+                                    </div>
+                                </div>
+                        
+                                <div class="activist-tags">
+                                    <span class="tag climate">Climate Change</span>
+                                    <span class="tag youth">Youth Movement</span>
+                                    <span class="tag strike">School Strikes</span>
+                                </div>
+                                
+                                <div class="activist-actions">
+                                    <button class="activist-story-btn greta-btn">
+                                        <i class="fas fa-play-circle"></i> Watch Her Speech
+                                    </button>
+                                    <a href="https://fridaysforfuture.org" target="_blank" class="activist-website">
+                                        <i class="fas fa-external-link-alt"></i> Learn More
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- David Attenborough -->
+                        <div class="activist-card">
+                            <div class="activist-image">
+                                <img src="images/david.jpg" alt="David Attenborough">
+                                <div class="activist-badge">Naturalist</div>
+                                <div class="activist-logo">
+                                    <i class="fas fa-leaf"></i>
+                                </div>
+                            </div>
+                            <div class="activist-info">
+                                <h4>Sir David Attenborough</h4>
+                                <p class="activist-role">Broadcaster & Natural Historian</p>
+                                <div class="activist-country">
+                                    <i class="fas fa-globe-europe"></i> United Kingdom
+                                </div>
+                                <p class="activist-quote">"The future of humanity and indeed, all life on earth, now depends on us."</p>
+                                
+                                <div class="activist-impact">
+                                    <h5>Key Achievements</h5>
+                                    <ul>
+                                        <li>Over 70 years of nature documentary work</li>
+                                        <li>BBC's "Blue Planet II" sparked plastic pollution awareness</li>
+                                        <li>UN Champion of the Earth award recipient</li>
+                                        <li>Inspired generations to care about biodiversity</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="activist-stats">
+                                    <div class="stat">
+                                        <div class="stat-number">60+</div>
+                                        <div class="stat-label">Years of Service</div>
+                                    </div>
+                                    <div class="stat">
+                                        <div class="stat-number">100+</div>
+                                        <div class="stat-label">Documentaries</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="activist-tags">
+                                    <span class="tag conservation">Conservation</span>
+                                    <span class="tag education">Education</span>
+                                    <span class="tag wildlife">Wildlife</span>
+                                </div>
+                                
+                                <div class="activist-actions">
+                                    <button class="activist-story-btn david-btn">
+                                        <i class="fas fa-film"></i> Watch Documentaries
+                                    </button>
+                                    <a href="https://attenboroughfilm.com" target="_blank" class="activist-website">
+                                        <i class="fas fa-external-link-alt"></i> Learn More
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Jane Goodall -->
+                        <div class="activist-card">
+                            <div class="activist-image">
+                                <img src="images/jane.jpg" alt="Jane Goodall">
+                                <div class="activist-badge">Primatologist</div>
+                                <div class="activist-logo">
+                                    <i class="fas fa-paw"></i>
+                                </div>
+                            </div>
+                            <div class="activist-info">
+                                <h4>Dr. Jane Goodall</h4>
+                                <p class="activist-role">Primatologist & Conservationist</p>
+                                <div class="activist-country">
+                                    <i class="fas fa-globe-africa"></i> Tanzania/UK
+                                </div>
+                                <p class="activist-quote">"What you do makes a difference, and you have to decide what kind of difference you want to make."</p>
+                                
+                                <div class="activist-impact">
+                                    <h5>Key Achievements</h5>
+                                    <ul>
+                                        <li>60+ years of chimpanzee research in Gombe</li>
+                                        <li>Founded Jane Goodall Institute (1977)</li>
+                                        <li>UN Messenger of Peace</li>
+                                        <li>Roots & Shoots youth program (150+ countries)</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="activist-stats">
+                                    <div class="stat">
+                                        <div class="stat-number">60</div>
+                                        <div class="stat-label">Years Research</div>
+                                    </div>
+                                    <div class="stat">
+                                        <div class="stat-number">150+</div>
+                                        <div class="stat-label">Countries Reached</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="activist-tags">
+                                    <span class="tag animals">Animal Rights</span>
+                                    <span class="tag research">Research</span>
+                                    <span class="tag youth">Youth Education</span>
+                                </div>
+                                
+                                <div class="activist-actions">
+                                    <button class="activist-story-btn jane-btn">
+                                        <i class="fas fa-book-open"></i> Read Her Story
+                                    </button>
+                                    <a href="https://janegoodall.org" target="_blank" class="activist-website">
+                                        <i class="fas fa-external-link-alt"></i> Learn More
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonials -->
+                    <div class="testimonial-slider">
+                        <div class="slider-container">
+                            <!-- Testimonial 1 -->
+                            <div class="testimonial active">
+                                <div class="quote-icon">
+                                    <i class="fas fa-quote-left"></i>
+                                </div>
+                                <p class="testimonial-text">"…yaa…yaa… Park Pulse Lens helped my class learn eco-stuff! Now we recycle, and even Hachiware says I'm not just a weepy bean… maybe…"</p>
+                                <div class="testimonial-author">
+                                    <img src="images/testimonial01.jpg" alt="chiikawa">
+                                    <div>
+                                        <p class="author-name"><strong>Chiikawa</strong></p>
+                                        <p class="author-role">Tiny Thing</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Testimonial 2 -->
+                            <div class="testimonial">
+                                <div class="quote-icon">
+                                    <i class="fas fa-quote-left"></i>
+                                </div>
+                                <p class="testimonial-text">"Ura! Park Pulse Lens makes everything more fun — me and the gang turned trash piles into gardens that now feed so many families! No monsters here, just snacks and success!"</p>
+                                <div class="testimonial-author">
+                                    <img src="images/testimonial02.jpg" alt="usagi">
+                                    <div>
+                                        <p class="author-name"><strong>Usagi</strong></p>
+                                        <p class="author-role">Hungry Bunny</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Testimonial 3 -->
+                            <div class="testimonial">
+                                <div class="quote-icon">
+                                    <i class="fas fa-quote-left"></i>
+                                </div>
+                                <p class="testimonial-text">"Thanks to fellow pals on Park Pulse Lens, our urban farm is booming! We're growing delicious greens for 100 families 💪🍅 — and no, I didn't overthink the watering schedule… much."</p>
+                                <div class="testimonial-author">
+                                    <img src="images/testimonial03.jpg" alt="hachi">
+                                    <div>
+                                        <p class="author-name"><strong>Hachiware</strong></p>
+                                        <p class="author-role">Cute Car</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slider-controls">
+                            <button class="slider-prev"><i class="fas fa-chevron-left"></i></button>
+                            <div class="slider-dots">
+                                <span class="dot active"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                            </div>
+                            <button class="slider-next"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== CALL TO ACTION ===== -->
+                <div class="voice-cta">
+                    <div class="cta-content">
+                        <h3><i class="fas fa-microphone-alt"></i> Join the Movement</h3>
+                        <p>Share your story, start a campaign, or download resources to make a difference in your community</p>
+                        
+                        <div class="cta-actions">
+                            <button class="cta-btn start-campaign">
+                                <a href="Events.html">
+                                    <i class="fas fa-rocket"></i> Join a Campaign
+                                </a>
+                            </button>
+                        </div>
+                        <p>Together, we can create cleaner, greener communities for everyone!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== FOOTER ========== -->
+    <footer>
+        <div class="footer-container">
+            <!-- Quick Links Section -->
+            <div class="footer-section">
+                <h3><i class="fas fa-home"></i> Quick Links</h3>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home Base</a></li>
+                    <li><a href="About.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                    <li><a href="Events.html"><i class="fas fa-chevron-right"></i> Events</a></li>
+                </ul>
+            </div>
+
+            <!-- Resources Section -->
+            <div class="footer-section">
+                <h3><i class="fas fa-book-open"></i> Resources</h3>
+                <ul>
+                    <li><a href="Guide.html#content-section-1"><i class="fas fa-chevron-right"></i> Eco Guide</a></li>
+                    <li><a href="Guide.html#content-section-2"><i class="fas fa-chevron-right"></i> Eco Science</a></li>
+                    <li><a href="Guide.html#content-section-3"><i class="fas fa-chevron-right"></i> Change Wave</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact & Connect Section -->
+            <div class="footer-section">
+                <h3><i class="fas fa-envelope"></i> Connect</h3>
+                <p>Join our community for park updates and volunteer opportunities.</p>
+                
+                <div class="newsletter-form">
+                    <div class="input-container">
+                        <input class="input" name="text" type="email" id="email-input">
+                        <label class="label" for="email-input">Enter Your Email</label>
+                        <div class="topline"></div>
+                        <div class="underline"></div>
+                    </div>        
+                    <button type="submit">Subscribe</button>
+                </div>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>(+959) 265507224</span>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>parkpulselens@gmail.com</span>
+                    </div>
+                </div>
+
+                <div class="social-links">
+                    <a href="https://www.facebook.com"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com"><i class="fab fa-instagram"></i></a>
+                    <a href="https://x.com"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.youtube.com/?gl=VN"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <p>&copy; 2025 Park Pulse Lens: Park Action Hub. All rights reserved.</p>
+            
+            <div class="footer-links">
+                <a href="Privacy.html">Privacy</a>
+                <a href="Terms.html">Terms</a>
+                <a href="Reference.html">Reference</a>
+                <a href="Accessibility.html">Accessibility</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,441 @@
+* {
+    font-family: "Jost", sans-serif;
+}
+:root {
+    --primary: #2e7d32;
+    --primary-light: #4caf50;
+    --primary-dark: #1b5e20;
+    --secondary: #ff9800;
+    --accent: #8bc34a;
+    --light: #f1f8e9;
+    --dark: #1b1b1b;
+    --text: #333;
+    --text-light: #666;
+}
+
+.high-contrast * {
+            border-color: #000000 !important;
+        }
+
+        .high-contrast .accessibility-card {
+            border: 3px solid #000000;
+        }
+
+        * {
+            font-family: "Jost", sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        body {
+            background-color: white;
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+
+        /* Accessibility Hero */
+        .accessibility-hero {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: white;
+            padding: 5rem 0 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .accessibility-hero:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><path d="M50,10 L60,40 L90,40 L65,60 L75,90 L50,70 L25,90 L35,60 L10,40 L40,40 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: 100px;
+        }
+
+        .accessibility-hero h1 {
+            font-family: "Zalando Sans Expanded", sans-serif;
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .accessibility-hero p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Accessibility Icon */
+        .accessibility-icon {
+            font-size: 4rem;
+            color: rgba(255, 255, 255, 0.2);
+            margin-bottom: 2rem;
+            animation: accessibilityPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes accessibilityPulse {
+            0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.2; }
+            25% { transform: rotate(5deg) scale(1.05); opacity: 0.3; }
+            75% { transform: rotate(-5deg) scale(1.05); opacity: 0.3; }
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 4rem 0;
+        }
+
+        .section-header {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .section-header h2 {
+            font-family: "Zalando Sans Expanded", sans-serif;
+            color: var(--primary-dark);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        /* Accessibility Cards */
+        .accessibility-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2.5rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .accessibility-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+            border-color: var(--primary-light);
+        }
+
+        .accessibility-card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid var(--light);
+        }
+
+        .accessibility-card-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--light) 0%, #e8f5e9 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+
+        .accessibility-card-title {
+            font-family: "Zalando Sans Expanded", sans-serif;
+            font-size: 1.6rem;
+            color: var(--primary-dark);
+            margin: 0;
+            flex: 1;
+        }
+
+        /* Standards Grid */
+        .standards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .standard-item {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            border-left: 5px solid var(--primary);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .standard-item h5 {
+            color: var(--primary-dark);
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Feature List */
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .feature-list li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--light);
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-icon {
+            color: var(--primary);
+            font-size: 1.2rem;
+            min-width: 24px;
+            margin-top: 0.2rem;
+        }
+
+        /* Park Accessibility Section */
+        .park-accessibility {
+            background: linear-gradient(135deg, var(--light) 0%, #e8f5e9 100%);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .park-accessibility:before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: var(--accent);
+            opacity: 0.1;
+            border-radius: 50%;
+        }
+
+        /* WCAG Compliance */
+        .wcag-compliance {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 2px solid var(--primary);
+        }
+
+        .compliance-level {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: var(--light);
+            border-radius: 10px;
+        }
+
+        .level-badge {
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* Feedback Form */
+        .feedback-section {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffecb3 100%);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
+        }
+
+        .feedback-form .form-control {
+            border: 2px solid var(--primary-light);
+            padding: 1rem;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        .feedback-form .form-control:focus {
+            box-shadow: 0 0 0 0.25rem rgba(46, 125, 50, 0.25);
+            border-color: var(--primary);
+        }
+
+        /* Skip to Main Content Link */
+        .skip-to-main {
+            position: absolute;
+            top: -50px;
+            left: 0;
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            text-decoration: none;
+            z-index: 1001;
+            border-radius: 0 0 10px 0;
+            transition: top 0.3s ease;
+        }
+
+        .skip-to-main:focus {
+            top: 0;
+            outline: 3px solid var(--secondary);
+            outline-offset: 2px;
+        }
+
+        /* Focus Styles */
+        a:focus,
+        button:focus,
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: 3px solid var(--secondary) !important;
+            outline-offset: 3px !important;
+        }
+
+        /* ARIA Landmarks */
+        [role="main"] {
+            outline: 2px dashed transparent;
+            padding: 10px;
+        }
+
+        [role="main"]:focus {
+            outline-color: var(--primary);
+        }
+
+        /* Back to Top */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 80px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(46, 125, 50, 0.4);
+        }
+
+        /* Print Styles */
+        @media print {
+            .accessibility-hero {
+                background: white !important;
+                color: black !important;
+                padding: 2rem 0 !important;
+            }
+            
+            .accessibility-hero:before {
+                display: none;
+            }
+            
+            .accessibility-icon {
+                display: none;
+            }
+            
+            .accessibility-card {
+                box-shadow: none !important;
+                border: 1px solid #ddd !important;
+            }
+            
+            .back-to-top,
+            .accessibility-toolbar {
+                display: none !important;
+            }
+            
+            a::after {
+                content: " (" attr(href) ")";
+                font-size: 0.9em;
+                color: #666;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .accessibility-hero {
+                padding: 3rem 0 2rem;
+            }
+
+            .accessibility-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .content-section {
+                padding: 3rem 0;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .accessibility-card {
+                padding: 2rem;
+            }
+
+            .standards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .park-accessibility,
+            .feedback-section {
+                padding: 2rem;
+            }
+
+            .back-to-top {
+                bottom: 20px;
+                right: 90px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .accessibility-card-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            .accessibility-card-icon {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+            }
+        }

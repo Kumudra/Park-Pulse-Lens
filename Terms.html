@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ========== META TAGS & TITLE ========== -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Park Pulse Lens</title>
+
+    <!-- ========== FAVICON SETUP ========== -->
+    <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96"/>
+    <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg"/>
+    <link rel="shortcut icon" href="favicon/favicon.ico"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png"/>
+    <link rel="manifest" href="favicon/site.webmanifest"/>
+
+    <!-- ========== EXTERNAL LIBRARIES ========== -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Jost:ital,wght@0,100..900;1,100..900&family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <!-- ========== CUSTOM STYLES & SCRIPTS ========== -->
+    <!-- Nav Bar -->
+    <link rel="stylesheet" href="nav.css">
+    <script src="nav.js"></script>
+    <script src="simple-auth.js"></script>
+    <script src="helper.js"></script>
+    <script src="Dashboard.js"></script>
+    
+    <!-- Home Base -->
+    <link rel="stylesheet" href="Terms.css">
+    <script src="Terms.js"></script>
+</head>
+
+<body>
+    <!-- ========== NAVIGATION BAR ========== -->
+    <nav class="navbar navbar-expand-lg px-5 sticky-top">
+        <a class="navbar-brand d-flex align-items-center" href="index.html">
+            <img src="images/logo1.png" alt="Logo" class="me-2" style="height:40px;">
+        </a>
+    
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home Base</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="About.html">About Us</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Resource</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="Guide.html#content-section-1">Eco Guide</a></li>
+                        <li><a class="dropdown-item" href="Guide.html#content-section-2">Eco Science</a></li>
+                        <li><a class="dropdown-item" href="Guide.html#content-section-3">Change Wave</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="Events.html">Events</a>
+                </li>
+                
+            </ul>
+        
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <!-- This button will be updated by JavaScript -->
+                    <button class="sign-in-btn btn" type="button" id="mainSignInBtn">Sign In</button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ========== MODALS SECTION ========== -->
+    <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content border-0">
+                <div class="modal-header border-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="login-container">
+                        <!-- Form Side -->
+                        <div class="form-side">
+                            <div class="logo-container">
+                                <img src="images/logo1.png" alt="Park Pulse Lens Logo">
+                                <h1 id="logoTitle">Welcome Back</h1>
+                                <p id="logoSubtitle">Sign in to continue your park conservation journey</p>
+                            </div>
+
+                            <!-- Login Form -->
+                            <form id="loginForm" class="form-switch">
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <div class="input-with-icon">
+                                        <i class="fas fa-envelope"></i>
+                                        <input type="email" id="loginEmail" name="email" placeholder="Enter your email" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <div class="input-with-icon password-container">
+                                        <i class="fas fa-lock"></i>
+                                        <input type="password" id="loginPassword" name="password" placeholder="Enter your password" required>
+                                        <span class="password-toggle" onclick="togglePassword('loginPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-options">
+                                    <div class="remember-me">
+                                        <input type="checkbox" id="remember" name="remember">
+                                        <label for="remember">Remember me</label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="submit-btn">Sign In</button>
+                                <div class="toggle-link">
+                                    Don't have an account? <a onclick="showSignupForm()">Sign up here</a>
+                                </div>
+                            </form>
+
+                            <!-- Signup Form -->
+                            <form id="signupForm" class="form-switch">
+                                <div class="name-fields">
+                                    <div class="form-group">
+                                        <label for="firstName">First Name</label>
+                                        <div class="input-with-icon">
+                                            <i class="fas fa-user"></i>
+                                            <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lastName">Last Name</label>
+                                        <div class="input-with-icon">
+                                            <i class="fas fa-user"></i>
+                                            <input type="text" id="lastName" name="lastName" placeholder="Enter your last name" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="signupEmail">Email Address</label>
+                                    <div class="input-with-icon">
+                                        <i class="fas fa-envelope"></i>
+                                        <input type="email" id="signupEmail" name="email" placeholder="Enter your email" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="signupPassword">Password</label>
+                                    <div class="input-with-icon password-container">
+                                        <i class="fas fa-lock"></i>
+                                        <input type="password" id="signupPassword" name="password" placeholder="Create a password" required>
+                                        <span class="password-toggle" onclick="togglePassword('signupPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirmPassword">Confirm Password</label>
+                                    <div class="input-with-icon password-container">
+                                        <i class="fas fa-lock"></i>
+                                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+                                        <span class="password-toggle" onclick="togglePassword('confirmPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-options">
+                                    <div class="remember-me">
+                                        <input type="checkbox" id="terms" name="terms" required>
+                                        <label for="terms">I agree to the Terms & Privacy Policy</label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="submit-btn">Create Account</button>
+                                <div class="toggle-link">
+                                    Already have an account? <a onclick="showLoginForm()">Login here</a>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Image Side -->
+                        <div class="image-side">
+                            <img src="images/join-log.png" alt="Beautiful Park Landscape">
+                            <div class="image-content">
+                                <h2 id="imageTitle">Join Our Park Conservation Community</h2>
+                                <p id="imageText">Be part of the movement to preserve and protect our natural spaces. Together, we can make a difference for future generations.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Hero Section -->
+    <section class="terms-hero">
+        <div class="container">
+            <div class="text-center">
+                <div class="legal-icon">
+                    <i class="fas fa-balance-scale"></i>
+                </div>
+                <h1>Terms of Service</h1>
+                <p>Welcome to Park Pulse Lens. By accessing our platform and participating in our community initiatives, you agree to these terms that govern our relationship.</p>
+                <p class="mt-3 small opacity-75">Effective Date: January 15, 2024 | Version: 2.1</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Table of Contents -->
+    <section class="toc-section">
+        <div class="container">
+            <div class="toc-card">
+                <h3><i class="fas fa-list-alt me-2"></i>Table of Contents</h3>
+                <ul class="toc-list">
+                    <li><a href="#acceptance"><i class="fas fa-check-circle"></i> 1. Acceptance of Terms</a></li>
+                    <li><a href="#eligibility"><i class="fas fa-user-check"></i> 2. Eligibility & Registration</a></li>
+                    <li><a href="#community"><i class="fas fa-users"></i> 3. Community Guidelines</a></li>
+                    <li><a href="#events"><i class="fas fa-calendar-alt"></i> 4. Event Participation</a></li>
+                    <li><a href="#intellectual"><i class="fas fa-copyright"></i> 5. Intellectual Property</a></li>
+                    <li><a href="#content"><i class="fas fa-pen"></i> 6. User Content</a></li>
+                    <li><a href="#privacy"><i class="fas fa-shield-alt"></i> 7. Privacy & Data</a></li>
+                    <li><a href="#liability"><i class="fas fa-exclamation-triangle"></i> 8. Liability & Disclaimers</a></li>
+                    <li><a href="#termination"><i class="fas fa-ban"></i> 9. Termination</a></li>
+                    <li><a href="#governing"><i class="fas fa-gavel"></i> 10. Governing Law</a></li>
+                    <li><a href="#changes"><i class="fas fa-sync-alt"></i> 11. Changes to Terms</a></li>
+                    <li><a href="#contact"><i class="fas fa-envelope"></i> 12. Contact Information</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="content-section">
+        <div class="container">
+            <div class="row">
+                <!-- Navigation Sidebar -->
+                <div class="col-lg-3">
+                    <div class="terms-nav" id="termsNav">
+                        <h5><i class="fas fa-bookmark me-2"></i>Quick Navigation</h5>
+                        <ul class="nav-links nav flex-column">
+                            <li class="nav-item"><a href="#acceptance" class="nav-link">Acceptance of Terms</a></li>
+                            <li class="nav-item"><a href="#eligibility" class="nav-link">Eligibility</a></li>
+                            <li class="nav-item"><a href="#community" class="nav-link">Community Guidelines</a></li>
+                            <li class="nav-item"><a href="#events" class="nav-link">Event Participation</a></li>
+                            <li class="nav-item"><a href="#intellectual" class="nav-link">Intellectual Property</a></li>
+                            <li class="nav-item"><a href="#content" class="nav-link">User Content</a></li>
+                            <li class="nav-item"><a href="#privacy" class="nav-link">Privacy & Data</a></li>
+                            <li class="nav-item"><a href="#liability" class="nav-link">Liability</a></li>
+                            <li class="nav-item"><a href="#termination" class="nav-link">Termination</a></li>
+                            <li class="nav-item"><a href="#governing" class="nav-link">Governing Law</a></li>
+                            <li class="nav-item"><a href="#changes" class="nav-link">Changes</a></li>
+                            <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="col-lg-9">
+                    <!-- Important Notice -->
+                    <div class="important-notice">
+                        <h4><i class="fas fa-exclamation-circle me-2"></i>Important Notice</h4>
+                        <p class="mb-0">By using Park Pulse Lens services, participating in our events, or accessing our platform, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service. If you do not agree with any part of these terms, please do not use our services.</p>
+                    </div>
+
+                    <!-- Section 1: Acceptance -->
+                    <div class="terms-card" id="acceptance">
+                        <div class="terms-card-header">
+                            <div class="terms-card-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <h2 class="terms-card-title"><span class="section-number">1</span> Acceptance of Terms</h2>
+                        </div>
+                        <p>Park Pulse Lens ("we," "us," or "our") provides park revitalization services, community events, and environmental education through our platform. By accessing or using our services, you agree to these Terms of Service.</p>
+                        
+                        <h5>Key Points:</h5>
+                        <ul>
+                            <li>These terms constitute a legal agreement between you and Park Pulse Lens</li>
+                            <li>We may update these terms periodically - continued use constitutes acceptance</li>
+                            <li>Supplemental terms may apply to specific services or events</li>
+                            <li>You must be at least 13 years old to use our services</li>
+                        </ul>
+
+                        <div class="agreement-box">
+                            <h5><i class="fas fa-handshake me-2"></i>Mutual Agreement</h5>
+                            <p class="mb-0">By participating in our community, you agree to work collaboratively with us and other volunteers to improve public parks and green spaces in accordance with these terms.</p>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Eligibility -->
+                    <div class="terms-card" id="eligibility">
+                        <div class="terms-card-header">
+                            <div class="terms-card-icon">
+                                <i class="fas fa-user-check"></i>
+                            </div>
+                            <h2 class="terms-card-title"><span class="section-number">2</span> Eligibility & Registration</h2>
+                        </div>
+                        <p>To participate in Park Pulse Lens initiatives, you must meet certain eligibility requirements:</p>
+                        
+                        <div class="definitions-grid">
+                            <div class="definition-card">
+                                <h6><i class="fas fa-user me-2"></i>Age Requirements</h6>
+                                <p class="small mb-0">Must be at least 13 years old. Minors require parental consent for event participation.</p>
+                            </div>
+                            <div class="definition-card">
+                                <h6><i class="fas fa-id-card me-2"></i>Account Accuracy</h6>
+                                <p class="small mb-0">Provide accurate, complete registration information. Keep your account credentials secure.</p>
+                            </div>
+                            <div class="definition-card">
+                                <h6><i class="fas fa-location-dot me-2"></i>Geographic Limitations</h6>
+                                <p class="small mb-0">Services available in supported regions. Some events may have location-specific requirements.</p>
+                            </div>
+                        </div>
+
+                        <h5>Registration Responsibilities:</h5>
+                        <ol>
+                            <li>You are responsible for maintaining the confidentiality of your account</li>
+                            <li>Notify us immediately of any unauthorized account access</li>
+                            <li>Provide accurate emergency contact information for event safety</li>
+                            <li>Complete required safety training for certain park activities</li>
+                        </ol>
+                    </div>
+
+                    <!-- Section 3: Community Guidelines -->
+                    <div class="terms-card" id="community">
+                        <div class="terms-card-header">
+                            <div class="terms-card-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h2 class="terms-card-title"><span class="section-number">3</span> Community Guidelines</h2>
+                        </div>
+                        <p>Our community thrives on mutual respect and shared environmental goals. All participants must adhere to these guidelines:</p>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card border-success mb-3">
+                                    <div class="card-header bg-success text-white">
+                                        <i class="fas fa-thumbs-up me-2"></i>Expected Behavior
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="mb-0">
+                                            <li>Respect all volunteers and community members</li>
+                                            <li>Follow safety protocols and event instructions</li>
+                                            <li>Share knowledge and help others learn</li>
+                                            <li>Leave parks cleaner than you found them</li>
+                                            <li>Celebrate diverse perspectives and backgrounds</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card border-danger mb-3">
+                                    <div class="card-header bg-danger text-white">
+                                        <i class="fas fa-thumbs-down me-2"></i>Prohibited Conduct
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="mb-0">
+                                            <li>Harassment or discrimination of any kind</li>
+                                            <li>Vandalism or damage to park property</li>
+                                            <li>Unauthorized commercial activities</li>
+                                            <li>Endangering yourself or others</li>
+                                            <li>Sharing false or misleading information</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p><strong>Consequences:</strong> Violation of community guidelines may result in temporary suspension, permanent ban from events, or legal action in severe cases.</p>
+                    </div>
+
+                    <!-- Section 4: Event Participation -->
+                    <div class="terms-card" id="events">
+                        <div class="terms-card-header">
+                            <div class="terms-card-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <h2 class="terms-card-title"><span class="section-number">4</span> Event Participation</h2>
+                        </div>
+                        <p>Park Pulse Lens organizes various park revitalization events. Participation requires adherence to specific terms:</p>
+                        
+                        <h5><i class="fas fa-clipboard-check me-2"></i>Event Requirements</h5>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Requirement</th>
+                                        <th>Description</th>
+                                        <th>Your Responsibility</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Safety Waiver</strong></td>
+                                        <td>Release of liability for park activities</td>
+                                        <td>Complete before event participation</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Appropriate Attire</strong></td>
+                                        <td>Weather-appropriate, protective clothing</td>
+                                        <td>Bring suitable gear for outdoor work</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Physical Ability</strong></td>
+                                        <td>Events may involve physical labor</td>
+                                        <td>Choose events matching your ability</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Attendance</strong></td>
+                                        <td>Commitment to registered events</td>
+                                        <td>Notify us if unable to attend</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="important-notice">
+                            <h5><i class="fas fa-heartbeat me-2"></i>Health & Safety First</h5>
+                            <p class="mb-0">You are responsible for assessing your own physical ability to participate in events. Consult with healthcare providers if you have concerns. Always follow safety instructions from event leaders.</p>
+                        </div>
+                    </div>
+
+                    <!-- Section 5: Intellectual Property -->
+                    <div class="terms-card" id="intellectual">
+                        <div class="terms-card-header">
+                            <div class="terms-card-icon">
+                                <i class="fas fa-copyright"></i>
+                            </div>
+                            <h2 class="terms-card-title"><span class="section-number">5</span> Intellectual Property</h2>
+                        </div>
+                        <p>Understanding ownership of content and materials:</p>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100 border-0 shadow-sm">
+                                    <div class="card-body">
+                                        <h6 class="card-title text-primary"><i class="fas fa-crown me-2"></i>Our Property</h6>
+                                        <ul class="mt-3 small">
+                                            <li>Park Pulse Lens name and logo</li>
+                                            <li>Website design and layout</li>
+                                            <li>Educational materials and guides</li>
+                                            <li>Event planning frameworks</li>
+                                            <li>Branded merchandise designs</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100 border-0 shadow-sm">
+                                    <div class="card-body">
+                                        <h6 class="card-title text-primary"><i class="fas fa-camera me-2"></i>Your Property</h6>
+                                        <ul class="mt-3 small">
+                                            <li>Photos you take at events</li>
+                                            <li>Original content you create</li>
+                                            <li>Personal stories and testimonials</li>
+                                            <li>Feedback and suggestions</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h5>License Grant:</h5>
+                        <p>By submitting content to Park Pulse Lens, you grant us a non-exclusive, worldwide, royalty-free license to use, display, and distribute your content for park revitalization promotion and community building purposes.</p>
+                    </div>
+
+                    <!-- Section 6: User Content -->
+                    <div class="terms-card" id="content">
+                        <div class="terms-card-header">
+                            <div class="terms-card-icon">
+                                <i class="fas fa-pen"></i>
+                            </div>
+                            <h2 class="terms-card-title"><span class="section-number">6</span> User Content & Contributions</h2>
+                        </div>
+                        <p>When you share content through our platform:</p>
+                        
+                        <h5>Content Standards:</h5>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Appropriate</strong></td>
+                                        <td>Park-related, constructive, environmentally positive</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Respectful</strong></td>
+                                        <td>No harassment, hate speech, or personal attacks</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Accurate</strong></td>
+                                        <td>Factual information, cite sources when needed</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Legal</strong></td>
+                                        <td>No copyrighted material without permission</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <p><strong>Content Moderation:</strong> We reserve the right to remove any content that violates these terms or our community standards without prior notice.</p>
+                    </div>
+
+                    <!-- Section 7: Privacy -->
+                    <div class="terms-card" id="privacy">
+                        <div class="terms-card-header">
+                            <div class="terms-card-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h2 class="terms-card-title"><span class="section-number">7</span> Privacy & Data Protection</h2>
+                        </div>
+                        <p>Your privacy is important to us. Our data practices are governed by our Privacy Policy.</p>
+                        
+                        <div class="alert alert-info">
+                            <h5><i class="fas fa-link me-2"></i>Linked Document</h5>
+                            <p class="mb-0">These Terms of Service incorporate our <a href="privacy.html" class="alert-link">Privacy Policy</a> by reference. Please review it to understand how we collect, use, and protect your personal information.</p>
+                        </div>
+
+                        <h5>Key Privacy Principles:</h5>
+                        <ul>
+                            <li>We collect minimal data necessary for park community engagement</li>
+                            <li>Your information is protected with industry-standard security</li>
+                            <li>We never sell your personal data to third parties</li>
+                            <li>You have rights to access, correct, or delete your information</li>
+                            <li>Emergency contact information is kept confidential</li>
+                        </ul>
+                    </div>
+
+                    <!-- Section 8: Liability -->
+                    <div class="terms-card" id="liability">
+                        <div class="terms-card-header">
+                            <div class="terms-card-icon">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <h2 class="terms-card-title"><span class="section-number">8</span> Liability & Disclaimers</h2>
+                        </div>
+                        
+                        <div class="important-notice">
+                            <h5><i class="fas fa-umbrella me-2"></i>Important Limitations</h5>
+                            <p class="mb-0">Park revitalization involves inherent risks. By participating, you acknowledge and assume these risks.</p>
+                        </div>
+
+                        <h5>Limitations of Liability:</h5>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Scope</th>
+                                        <th>Limitation</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Event Participation</strong></td>
+                                        <td>We are not liable for injuries sustained during park activities</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Property Damage</strong></td>
+                                        <td>Not responsible for personal property loss or damage</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Service Availability</strong></td>
+                                        <td>Platform may experience downtime or interruptions</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Third-Party Content</strong></td>
+                                        <td>Not responsible for content on linked external sites</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <p><strong>Indemnification:</strong> You agree to indemnify and hold harmless Park Pulse Lens, its directors, officers, employees, and volunteers from any claims arising from your participation in our programs.</p>
+                    </div>
+
+                    <!-- Section 9: Termination -->
+                    <div class="terms-card" id="termination">
+                        <div class="terms-card-header">
+                            <div class="terms-card-icon">
+                                <i class="fas fa-ban"></i>
+                            </div>
+                            <h2 class="terms-card-title"><span class="section-number">9</span> Termination</h2>
+                        </div>
+                        <p>Either party may terminate this agreement under certain conditions:</p>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card border-warning mb-3">
+                                    <div class="card-header bg-warning">
+                                        <i class="fas fa-user-slash me-2"></i>Your Rights
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="mb-0">You may stop using our services at any time by:</p>
+                                        <ul class="mt-2 mb-0">
+                                            <li>Deleting your account</li>
+                                            <li>Unsubscribing from communications</li>
+                                            <li>Ceasing event participation</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card border-danger mb-3">
+                                    <div class="card-header bg-danger text-white">
+                                        <i class="fas fa-gavel me-2"></i>Our Rights
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="mb-0">We may suspend or terminate access for:</p>
+                                        <ul class="mt-2 mb-0">
+                                            <li>Violation of these terms</li>
+                                            <li>Harmful community conduct</li>
+                                            <li>Legal or safety concerns</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p><strong>Effect of Termination:</strong> Upon termination, your right to use our services immediately ceases. Certain provisions (like liability limitations) survive termination.</p>
+                    </div>
+
+                    <!-- Section 10: Governing Law -->
+                    <div class="terms-card" id="governing">
+                        <div class="terms-card-header">
+                            <div class="terms-card-icon">
+                                <i class="fas fa-gavel"></i>
+                            </div>
+                            <h2 class="terms-card-title"><span class="section-number">10</span> Governing Law & Dispute Resolution</h2>
+                        </div>
+                        
+                        <h5>Applicable Law:</h5>
+                        <p>These Terms are governed by the laws of [Jurisdiction], without regard to its conflict of law principles.</p>
+                        
+                        <h5>Dispute Resolution Process:</h5>
+                        <div class="alert alert-secondary">
+                            <ol>
+                                <li><strong>Informal Negotiation:</strong> Parties agree to attempt informal resolution for 30 days</li>
+                                <li><strong>Mediation:</strong> If unresolved, parties will pursue mediation with a neutral third party</li>
+                                <li><strong>Arbitration:</strong> Binding arbitration as final resolution method</li>
+                                <li><strong>Court Action:</strong> Limited to small claims court or intellectual property disputes</li>
+                            </ol>
+                        </div>
+
+                        <p><strong>Class Action Waiver:</strong> You agree to resolve disputes individually, not as part of any class or representative action.</p>
+                    </div>
+
+                    <!-- Section 11: Changes -->
+                    <div class="terms-card" id="changes">
+                        <div class="terms-card-header">
+                            <div class="terms-card-icon">
+                                <i class="fas fa-sync-alt"></i>
+                            </div>
+                            <h2 class="terms-card-title"><span class="section-number">11</span> Changes to Terms</h2>
+                        </div>
+                        
+                        <div class="alert alert-warning">
+                            <h5><i class="fas fa-bell me-2"></i>Modification Process</h5>
+                            <p class="mb-0">We may update these Terms periodically to reflect changes in our services or legal requirements.</p>
+                        </div>
+
+                        <h5>Update Procedure:</h5>
+                        <ul>
+                            <li>We will notify you of significant changes via email or platform announcements</li>
+                            <li>Continued use after updates constitutes acceptance of new terms</li>
+                            <li>Material changes will have a 30-day notice period</li>
+                            <li>You may reject changes by discontinuing service use</li>
+                        </ul>
+
+                        <div class="mt-3 p-3 bg-light rounded">
+                            <p class="mb-0"><i class="fas fa-history me-2"></i><strong>Version Control:</strong> The "Effective Date" at the top indicates when these Terms were last revised. Previous versions are archived and available upon request.</p>
+                        </div>
+                    </div>
+
+                    <!-- Section 12: Contact -->
+                    <div class="terms-card" id="contact">
+                        <div class="terms-card-header">
+                            <div class="terms-card-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <h2 class="terms-card-title"><span class="section-number">12</span> Contact Information</h2>
+                        </div>
+                        
+                        <div class="agreement-box">
+                            <h5><i class="fas fa-headset me-2"></i>Questions & Support</h5>
+                            <p>If you have questions about these Terms or need assistance, please contact our team:</p>
+                            
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <div class="card border-0 shadow-sm mb-3">
+                                        <div class="card-body">
+                                            <h6><i class="fas fa-envelope text-primary me-2"></i>General Inquiries</h6>
+                                            <p class="mb-0">parkpulselens@gmail.com</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card border-0 shadow-sm mb-3">
+                                        <div class="card-body">
+                                            <h6><i class="fas fa-legal text-primary me-2"></i>Legal Matters</h6>
+                                            <p class="mb-0">parkpulselens@gmail.com</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-3">
+                                <h6><i class="fas fa-map-marker-alt text-primary me-2"></i>Mailing Address</h6>
+                                <p class="mb-0">Park Pulse Lens Legal Department<br>
+                                635J Yoma Avenue Street<br>
+                                Yangon</p>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <div class="alert alert-success">
+                                <h5><i class="fas fa-handshake me-2"></i>Thank You for Being Part of Our Community!</h5>
+                                <p class="mb-0">Together, we're creating greener, healthier public spaces for everyone to enjoy.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer>
+        <div class="footer-container">
+            <!-- Quick Links Section -->
+            <div class="footer-section">
+                <h3><i class="fas fa-home"></i> Quick Links</h3>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home Base</a></li>
+                    <li><a href="About.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                    <li><a href="Events.html"><i class="fas fa-chevron-right"></i> Events</a></li>
+                </ul>
+            </div>
+
+            <!-- Resources Section -->
+            <div class="footer-section">
+                <h3><i class="fas fa-book-open"></i> Resources</h3>
+                <ul>
+                    <li><a href="Guide.html#content-section-1"><i class="fas fa-chevron-right"></i> Eco Guide</a></li>
+                    <li><a href="Guide.html#content-section-2"><i class="fas fa-chevron-right"></i> Eco Science</a></li>
+                    <li><a href="Guide.html#content-section-3"><i class="fas fa-chevron-right"></i> Change Wave</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact & Connect Section -->
+            <div class="footer-section">
+                <h3><i class="fas fa-envelope"></i> Connect</h3>
+                <p>Join our community for park updates and volunteer opportunities.</p>
+                
+                <div class="newsletter-form">
+                    <div class="input-container">
+                        <input class="input" name="text" type="email" id="email-input">
+                        <label class="label" for="email-input">Enter Your Email</label>
+                        <div class="topline"></div>
+                        <div class="underline"></div>
+                    </div>        
+                    <button type="submit">Subscribe</button>
+                </div>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>(+959) 265507224</span>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>parkpulselens@gmail.com</span>
+                    </div>
+                </div>
+
+                <div class="social-links">
+                    <a href="https://www.facebook.com"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com"><i class="fab fa-instagram"></i></a>
+                    <a href="https://x.com"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.youtube.com/?gl=VN"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <p>&copy; 2025 Park Pulse Lens: Park Action Hub. All rights reserved.</p>
+            
+            <div class="footer-links">
+                <a href="Privacy.html">Privacy</a>
+                <a href="Terms.html">Terms</a>
+                <a href="Reference.html">Reference</a>
+                <a href="Accessibility.html">Accessibility</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

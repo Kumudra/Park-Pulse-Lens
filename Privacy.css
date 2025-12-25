@@ -1,0 +1,264 @@
+/* ===== BASE & VARIABLES ===== */
+* {
+    font-family: "Jost", sans-serif;
+}
+
+:root {
+    --primary: #2e7d32;
+    --primary-light: #4caf50;
+    --primary-dark: #1b5e20;
+    --secondary: #ff9800;
+    --accent: #8bc34a;
+    --light: #f1f8e9;
+    --dark: #1b1b1b;
+    --text: #333;
+    --text-light: #666;
+}
+
+/* ===== HERO SECTION ===== */
+/* Privacy Hero */
+.privacy-hero {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+    color: white;
+    padding: 5rem 0 3rem;
+    position: relative;
+    overflow: hidden;
+}
+.privacy-hero:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><path d="M0,50 Q25,30 50,50 T100,50 L100,100 L0,100 Z" fill="rgba(255,255,255,0.05)"/></svg>');
+    background-size: 100px;
+}
+.privacy-hero h1 {
+    font-family: "Zalando Sans Expanded", sans-serif;
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+.privacy-hero p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    max-width: 800px;
+    margin: 0 auto;
+}
+/* Privacy Icon */
+.privacy-icon {
+    font-size: 4rem;
+    color: rgba(246, 255, 251, 0.3);
+    margin-bottom: 2rem;
+    animation: float 3s ease-in-out infinite;
+}
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* ===== CONTENT SECTIONS ===== */
+.content-section {
+    padding: 4rem 0;
+}
+.section-header {
+    margin-bottom: 3rem;
+    text-align: center;
+}
+.section-header h2 {
+    font-family: "Zalando Sans Expanded", sans-serif;
+    color: var(--primary-dark);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+}
+.section-header h2:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--accent);
+    border-radius: 2px;
+}
+
+/* ===== PRIVACY CARDS ===== */
+.privacy-card {
+    background: white;
+    border-radius: 15px;
+    padding: 2.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    border-top: 5px solid var(--primary);
+    margin-bottom: 2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+}
+.privacy-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+}
+.privacy-card-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 1.5rem;
+}
+.privacy-card-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--light);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--primary);
+}
+.privacy-card-title {
+    font-family: "Zalando Sans Expanded", sans-serif;
+    font-size: 1.5rem;
+    color: var(--primary-dark);
+    margin: 0;
+}
+
+/* ===== ACCORDION ===== */
+.privacy-accordion .accordion-item {
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+}
+.privacy-accordion .accordion-button {
+    background: var(--light);
+    border: none;
+    padding: 1.5rem;
+    font-family: "Jost", sans-serif;
+    font-weight: 600;
+    color: var(--primary-dark);
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+.privacy-accordion .accordion-button:not(.collapsed) {
+    background: var(--primary);
+    color: white;
+    box-shadow: none;
+}
+.privacy-accordion .accordion-button:focus {
+    box-shadow: 0 0 0 0.25rem rgba(46, 125, 50, 0.25);
+}
+.privacy-accordion .accordion-body {
+    padding: 1.5rem;
+    background: white;
+    color: var(--text);
+}
+
+/* ===== DATA TABLE ===== */
+.data-table {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+.data-table th {
+    background: var(--primary);
+    color: white;
+    padding: 1rem;
+    font-weight: 600;
+    border: none;
+}
+.data-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+}
+.data-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* ===== CONTACT BOX ===== */
+.contact-box {
+    background: linear-gradient(135deg, var(--light) 0%, #e8f5e9 100%);
+    border-radius: 15px;
+    padding: 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    margin-top: 3rem;
+}
+.contact-box:before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 150px;
+    height: 150px;
+    background: var(--accent);
+    opacity: 0.1;
+    border-radius: 50%;
+}
+.contact-box h3 {
+    color: var(--primary-dark);
+    margin-bottom: 1.5rem;
+    font-family: "Zalando Sans Expanded", sans-serif;
+}
+
+/* ===== BACK TO TOP BUTTON ===== */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 1.2rem;
+    box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+    z-index: 1000;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+}
+.back-to-top.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.back-to-top:hover {
+    background: var(--primary-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(46, 125, 50, 0.4);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+    .privacy-hero {
+        padding: 3rem 0 2rem;
+    }   
+    .privacy-hero h1 {
+        font-size: 2.5rem;
+    }
+    .content-section {
+        padding: 3rem 0;
+    }
+    .section-header h2 {
+        font-size: 2rem;
+    }
+    .privacy-card {
+        padding: 2rem;
+    }
+    .contact-box {
+        padding: 2rem;
+    }
+    .back-to-top {
+        bottom: 20px;
+        right: 20px;
+    }
+}
